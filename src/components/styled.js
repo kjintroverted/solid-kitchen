@@ -60,7 +60,7 @@ export const BigBar = styled.div`
 
 export const BigIconHeader = styled.span`
   font-size: 10em;
-  margin: 0px 10px 0px 50px;
+  margin: inherit;
 `
 
 export const Pane = styled.div`
