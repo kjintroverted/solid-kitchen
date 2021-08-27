@@ -9,10 +9,18 @@ export const THEME = {
 }
 
 export const Column = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: ${ props => props.justify };
-  height: 100%;
+  align-items: ${ props => props.align };
+`
+
+export const Row = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: ${ props => props.justify };
+  align-items: ${ props => props.align };
 `
 
 export const Spacer = styled.span`
@@ -71,9 +79,6 @@ export const Pane = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  & .self-end {
-    align-self: flex-end;
-  }
 `
 
 export const Content = styled.div`
@@ -81,4 +86,13 @@ export const Content = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`
+
+export const Card = styled.div`
+  width: 90%;
+  min-height: 100px;
+  background-color: white;
+  box-shadow: rgb(91 83 72 / 10%) 2px 2px 10px;
+  border-radius: 3px;
+  padding: 10px;
 `

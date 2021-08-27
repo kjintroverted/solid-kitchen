@@ -55,31 +55,29 @@ function Profile({ profile, onChange, submit }) {
           </Link>
         </Column>
       </BigBar>
-      <Pane>
-        <Column>
-          <Input
-            type="text"
-            placeholder="nickname"
-            defaultValue={ profile.nickname || "" }
-            startAdornment={
-              <InputAdornment position="start">
-                <span className="material-icons">account_circle</span>
-              </InputAdornment>
-            }
-            onChange={ update("nickname") } />
-          <Input
-            type="text"
-            placeholder="email"
-            defaultValue={ profile.email || "" }
-            startAdornment={
-              <InputAdornment position="start">
-                <span className="material-icons">email</span>
-              </InputAdornment>
-            }
-            onChange={ update("email") } />
-          <Button className="self-end" onClick={ submit }>Save</Button>
-        </Column>
-      </Pane>
+      <Column align="center">
+        <Input
+          type="text"
+          placeholder="nickname"
+          defaultValue={ profile.nickname || "" }
+          startAdornment={
+            <InputAdornment position="start">
+              <span className="material-icons">account_circle</span>
+            </InputAdornment>
+          }
+          onChange={ update("nickname") } />
+        <Input
+          type="text"
+          placeholder="email"
+          defaultValue={ profile.email || "" }
+          startAdornment={
+            <InputAdornment position="start">
+              <span className="material-icons">email</span>
+            </InputAdornment>
+          }
+          onChange={ update("email") } />
+        <Button onClick={ submit } color="primary">update</Button>
+      </Column>
     </>)
 }
 
