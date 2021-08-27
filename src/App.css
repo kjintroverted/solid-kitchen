@@ -37,7 +37,20 @@
   }
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.large {
+  font-size: xx-large;
+}
+
 /* MATERIAL OVERRIDES */
 input {
   min-width: 200px !important;
+}
+
+span {
+  margin: 0 !important;
 }

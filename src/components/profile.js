@@ -1,6 +1,7 @@
 import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { useState } from "react";
-import { BigBar, BigIconHeader, Column, Pane } from "./styled";
+import { Link } from "react-router-dom";
+import { BigBar, BigIconHeader, Column, Pane, Spacer } from "./styled";
 
 
 function Profile({ profile, onChange, submit }) {
@@ -24,7 +25,7 @@ function Profile({ profile, onChange, submit }) {
     <>
       <BigBar>
         <BigIconHeader className="material-icons">account_circle</BigIconHeader>
-        <Column>
+        <Column justify="center">
           { !edit ?
             <h2 style={ { margin: 0 } }>
               { profile.firstName } { profile.lastName }
@@ -36,7 +37,7 @@ function Profile({ profile, onChange, submit }) {
               defaultValue={ profile.firstName ? `${ profile.firstName } ${ profile.lastName }` : "" }
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton onClick={ () => toggleEdit(!edit) }>
+                  <IconButton onClick={ () => toggleEdit(!edit) } color="inherit">
                     <span className="material-icons">done</span>
                   </IconButton>
                 </InputAdornment>
@@ -44,6 +45,14 @@ function Profile({ profile, onChange, submit }) {
               onChange={ updateName } />
           }
           <p>{ profile.nickname }</p>
+        </Column>
+        <Spacer />
+        <Column justify="flex-end">
+          <Link to="/">
+            <IconButton color="inherit" size="large">
+              <span className="material-icons large">kitchen</span>
+            </IconButton>
+          </Link>
         </Column>
       </BigBar>
       <Pane>

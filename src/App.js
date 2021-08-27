@@ -45,7 +45,8 @@ function App() {
               submit={ () => saveData(profileThing, profile, profileStruct) } />
           </Route>
           <Route path="/">
-            <Dashboard name={ profile.firstName } />
+            {/* TODO: loading logic */ }
+            { profile && <Dashboard name={ profile.firstName } /> }
           </Route>
         </Switch>
       </Router>

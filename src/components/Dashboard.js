@@ -1,5 +1,7 @@
-import { HeaderBar, Spacer } from "./styled";
-import { Button } from '@material-ui/core'
+import { Content, HeaderBar, Pane, Spacer } from "./styled";
+import Recipes from './Recipes'
+import { IconButton } from '@material-ui/core'
+import { Link } from "react-router-dom";
 
 function Dashboard({ name }) {
 
@@ -8,12 +10,17 @@ function Dashboard({ name }) {
       <HeaderBar>
         <h2>{ name ? `${ name }'s` : "My" } Kitchen</h2>
         <Spacer />
-        <Button color="inherit">
-          <span className="material-icons">person</span>
-          { 'Profile' }
-        </Button>
+        <Link to="/profile">
+          <IconButton color="inherit">
+            <span className="material-icons">person</span>
+          </IconButton>
+        </Link>
       </HeaderBar>
-      Dash content
+      <Content>
+        <Pane>
+          <Recipes />
+        </Pane>
+      </Content>
     </>
   )
 }

@@ -11,6 +11,8 @@ export const THEME = {
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: ${ props => props.justify };
+  height: 100%;
 `
 
 export const Spacer = styled.span`
@@ -64,10 +66,19 @@ export const BigIconHeader = styled.span`
 `
 
 export const Pane = styled.div`
+  width: 25vw;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   & .self-end {
     align-self: flex-end;
   }
+`
+
+export const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `
