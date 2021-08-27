@@ -67,4 +67,7 @@ export const Pane = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  & .self-end {
+    align-self: flex-end;
+  }
 `
