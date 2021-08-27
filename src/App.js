@@ -1,11 +1,13 @@
 import './App.css';
-import { Back } from './components/styled';
+import { Main } from './components/styled';
 import { appLogin, getData, saveData } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
 import models from './models'
-import Profile from './components/profile';
+import Profile from './components/Profile';
 import { profileStruct } from './models/profile';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
 
 function App() {
 
@@ -33,12 +35,21 @@ function App() {
   }, [user])
 
   return (
-    <Back>
-      <Profile
-        profile={ profile }
-        onChange={ setProfile }
-        submit={ () => saveData(profileThing, profile, profileStruct) } />
-    </Back>
+    <Main>
+      <Router>
+        <Switch>
+          <Route path="/profile">
+            <Profile
+              profile={ profile }
+              onChange={ setProfile }
+              submit={ () => saveData(profileThing, profile, profileStruct) } />
+          </Route>
+          <Route path="/">
+            <Dashboard name={ profile.firstName } />
+          </Route>
+        </Switch>
+      </Router>
+    </Main>
   );
 }
 

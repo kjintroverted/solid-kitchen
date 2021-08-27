@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-// https://poolors.com/057b89-c6e7f8-f36e99-1f0f06
+// https://poolors.com/379968-f0f0ef-c7a487-5b5348
 export const THEME = {
-  light: '#c6e7f8',
-  dark: '#1f0f06',
-  primary: '#057b89',
-  secondary: '#f36e99'
+  light: '#f0f0ef',
+  dark: '#5b5348',
+  primary: '#379968',
+  secondary: '#c7a487'
 }
 
 export const Column = styled.div`
@@ -17,7 +17,7 @@ export const Spacer = styled.span`
   flex: 1;
 `
 
-export const Back = styled.div`
+export const Main = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
