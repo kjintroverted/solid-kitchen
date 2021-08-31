@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { createMuiTheme } from '@material-ui/core/styles'
 
 // https://poolors.com/379968-f0f0ef-c7a487-5b5348
 export const THEME = {
@@ -7,6 +8,17 @@ export const THEME = {
   primary: '#379968',
   secondary: '#c7a487'
 }
+
+export const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: THEME.primary,
+    },
+    secondary: {
+      main: THEME.secondary,
+    }
+  }
+})
 
 export const Column = styled.div`
   height: 100%;
@@ -21,6 +33,18 @@ export const Row = styled.div`
   display: flex;
   justify-content: ${ props => props.justify };
   align-items: ${ props => props.align };
+  & * {
+    margin: 0px 5px;
+  }
+  & .flex-50 {
+    flex: .5;
+  }
+  & .flex-100 {
+    flex: 1;
+  }
+  & .flex-200 {
+    flex: 2;
+  }
 `
 
 export const Spacer = styled.span`
@@ -75,7 +99,7 @@ export const BigIconHeader = styled.span`
 
 export const Pane = styled.div`
   width: 25vw;
-  min-width: 300px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,4 +119,6 @@ export const Card = styled.div`
   box-shadow: rgb(91 83 72 / 10%) 2px 2px 10px;
   border-radius: 3px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
 `

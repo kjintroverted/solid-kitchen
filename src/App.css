@@ -3,6 +3,10 @@ a {
   text-decoration: none;
 }
 
+ul {
+  margin: 0px;
+}
+
 .self-end {
   align-self: flex-end;
 }

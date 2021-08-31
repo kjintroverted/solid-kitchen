@@ -1,5 +1,5 @@
 import './App.css';
-import { Main } from './components/styled';
+import { Main, muiTheme } from './components/styled';
 import { appLogin, getData, saveData } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import { profileStruct } from './models/profile';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import { ThemeProvider } from '@material-ui/core';
 
 function App() {
 
@@ -35,22 +36,24 @@ function App() {
   }, [user])
 
   return (
-    <Main>
-      <Router>
-        <Switch>
-          <Route path="/profile">
-            <Profile
-              profile={ profile }
-              onChange={ setProfile }
-              submit={ () => saveData(profileThing, profile, profileStruct) } />
-          </Route>
-          <Route path="/">
-            {/* TODO: loading logic */ }
-            { profile && <Dashboard name={ profile.firstName } /> }
-          </Route>
-        </Switch>
-      </Router>
-    </Main>
+    <ThemeProvider theme={ muiTheme }>
+      <Main>
+        <Router>
+          <Switch>
+            <Route path="/profile">
+              <Profile
+                profile={ profile }
+                onChange={ setProfile }
+                submit={ () => saveData(profileThing, profile, profileStruct) } />
+            </Route>
+            <Route path="/">
+              {/* TODO: loading logic */ }
+              { profile && <Dashboard name={ profile.firstName } /> }
+            </Route>
+          </Switch>
+        </Router>
+      </Main>
+    </ThemeProvider>
   );
 }
 
