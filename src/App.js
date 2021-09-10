@@ -1,6 +1,6 @@
 import './App.css';
 import { Main, muiTheme } from './components/styled';
-import { appLogin, getData, saveData } from './util/pods';
+import { appLogin, loadDataset, loadThing, saveThing } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
 import models from './models'
@@ -15,6 +15,7 @@ function App() {
   const [user, setUser] = useState();
   const [profile, setProfile] = useState();
   const [profileThing, setProfileThing] = useState();
+  const [cookbook, setCookbook] = useState();
 
   useEffect(() => {
     const session = getDefaultSession();
@@ -25,13 +26,18 @@ function App() {
       })
   }, [])
 
+  // USER LOADED => LOAD DATA
   useEffect(() => {
     if (user) {
-      getData(user, models.profileStruct)
+      // LOAD PROFILE
+      loadThing(user, models.profileStruct)
         .then(([thing, profile]) => {
           setProfileThing(thing)
           setProfile(profile)
         })
+      // LOAD COOKBOOK DATASET
+      loadDataset(user.replace("/card#me", "") + "/cookbook")
+        .then(data => setCookbook(data));
     }
   }, [user])
 
@@ -44,11 +50,11 @@ function App() {
               <Profile
                 profile={ profile }
                 onChange={ setProfile }
-                submit={ () => saveData(profileThing, profile, profileStruct) } />
+                submit={ () => saveThing(profileThing, profile, profileStruct) } />
             </Route>
             <Route path="/">
               {/* TODO: loading logic */ }
-              { profile && <Dashboard name={ profile.firstName } /> }
+              { profile && <Dashboard name={ profile.firstName } cookbook={ cookbook } /> }
             </Route>
           </Switch>
         </Router>

@@ -1,4 +1,4 @@
-import { getSolidDataset, getThing, saveSolidDatasetAt, setThing } from "@inrupt/solid-client";
+import { createSolidDataset, getSolidDataset, getThing, saveSolidDatasetAt, setThing } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
 
 export async function appLogin() {
@@ -9,7 +9,29 @@ export async function appLogin() {
   });
 }
 
-export async function getData(url, struct) {
+export async function initDataset(url) {
+  let dataset = createSolidDataset();
+  dataset = await saveSolidDatasetAt(url, dataset, { fetch })
+  return dataset;
+}
+
+export async function loadDataset(url) {
+  let dataset;
+  try {
+    dataset = await getSolidDataset(url, { fetch })
+  } catch (e) {
+    if (e.toString().indexOf("404") > 0) {
+      console.info("Could not find dataset at", url);
+      console.info("Attempting to create dataset at", url);
+      dataset = await initDataset(url);
+    } else {
+      throw e;
+    }
+  }
+  return dataset;
+}
+
+export async function loadThing(url, struct) {
   if (!getDefaultSession().info.isLoggedIn) {
     logout()
     return new Error("Session Expired. Please Login.");
@@ -25,8 +47,8 @@ export async function getData(url, struct) {
 }
 
 // TODO: needs feedback
-export async function saveData(thing, data, struct) {
-  let dataset = await getSolidDataset(thing.url.split('#')[0], { fetch })
+export async function saveThing(thing, data, struct) {
+  let dataset = await getSolidDataset(resourceURL(thing.url), { fetch })
   for (let field in struct) {
     if (!data[field]) continue;
     const attribute = struct[field];

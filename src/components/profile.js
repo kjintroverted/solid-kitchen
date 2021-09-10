@@ -1,7 +1,7 @@
 import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { BigBar, BigIconHeader, Column, Pane, Spacer } from "./styled";
+import { BigBar, BigIconHeader, Column, Spacer } from "./styled";
 
 
 function Profile({ profile, onChange, submit }) {
@@ -49,7 +49,7 @@ function Profile({ profile, onChange, submit }) {
         <Spacer />
         <Column justify="flex-end">
           <Link to="/">
-            <IconButton color="inherit" size="large">
+            <IconButton color="inherit">
               <span className="material-icons large">kitchen</span>
             </IconButton>
           </Link>
