@@ -2,7 +2,7 @@ import { Button, IconButton, TextField } from "@material-ui/core";
 import { useState } from "react";
 import { Card, Row } from "../styled";
 
-function RecipeForm() {
+function RecipeForm({ addRecipe }) {
 
   const [recipe, updateRecipe] = useState({
     ingredients: [],
@@ -115,8 +115,8 @@ function RecipeForm() {
         variant="contained"
         color="primary"
         className="self-end"
-        onClick={ () => console.log(recipe) }>
-        Save Recipe
+        onClick={ addRecipe }>
+        Save
       </Button>
     </Card>
   )

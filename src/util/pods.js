@@ -1,6 +1,8 @@
 import { createSolidDataset, getSolidDataset, getThing, saveSolidDatasetAt, setThing } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
 
+let updateQ = [];
+
 export async function appLogin() {
   await login({
     oidcIssuer: "https://inrupt.net",
@@ -46,16 +48,29 @@ export async function loadThing(url, struct) {
   return [thing, datum];
 }
 
-// TODO: needs feedback
-export async function saveThing(thing, data, struct) {
+export function addToUpdateQueue(thing) {
+  let i = updateQ.findIndex(e => thing.url === e.url);
+  if (i < 0) updateQ = [...updateQ, thing];
+  else updateQ.splice(i, 1, thing)
+
+}
+
+export function setAttr(thing, attribute, value) {
+  thing = attribute.set(thing, attribute.predicate, value)
+  addToUpdateQueue(thing)
+  return thing;
+}
+
+export async function saveThing(thing) {
   let dataset = await getSolidDataset(resourceURL(thing.url), { fetch })
-  for (let field in struct) {
-    if (!data[field]) continue;
-    const attribute = struct[field];
-    thing = attribute.set(thing, attribute.predicate, data[field])
-  }
   dataset = setThing(dataset, thing);
   await saveSolidDatasetAt(resourceURL(thing.url), dataset, { fetch })
+}
+
+export async function save() {
+  let res = await Promise.all(updateQ.map(saveThing));
+  console.log("Saved:", res);
+  return true;
 }
 
 function resourceURL(url) {

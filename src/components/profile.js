@@ -1,22 +1,32 @@
 import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { profileStruct } from "../models/profile";
+import { setAttr } from "../util/pods";
 import { BigBar, BigIconHeader, Column, Spacer } from "./styled";
 
 
-function Profile({ profile, onChange, submit }) {
+function Profile({ profile, profileThing, onChange, submit }) {
 
   const [edit, toggleEdit] = useState(false);
+  const [thing, setThing] = useState();
+
+  useEffect(() => {
+    setThing(profileThing)
+  }, [profileThing])
 
   function update(field) {
     return ({ target }) => {
       onChange({ ...profile, [field]: target.value })
+      setThing(setAttr(thing, profileStruct[field], target.value))
     }
   }
 
   function updateName({ target }) {
     let [firstName = '', lastName = ''] = target.value.split(' ');
-    onChange({ ...profile, firstName, lastName })
+    onChange({ ...profile, firstName, lastName });
+    let t = setAttr(thing, profileStruct['firstName'], firstName)
+    setThing(setAttr(t, profileStruct['lastName'], lastName))
   }
 
   if (!profile) return <></>

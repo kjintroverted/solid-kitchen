@@ -1,11 +1,10 @@
 import './App.css';
 import { Main, muiTheme } from './components/styled';
-import { appLogin, loadDataset, loadThing, saveThing } from './util/pods';
+import { appLogin, loadDataset, loadThing, save } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
 import models from './models'
 import Profile from './components/Profile';
-import { profileStruct } from './models/profile';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import { ThemeProvider } from '@material-ui/core';
@@ -49,8 +48,9 @@ function App() {
             <Route path="/profile">
               <Profile
                 profile={ profile }
+                profileThing={ profileThing }
                 onChange={ setProfile }
-                submit={ () => saveThing(profileThing, profile, profileStruct) } />
+                submit={ save } />
             </Route>
             <Route path="/">
               {/* TODO: loading logic */ }
