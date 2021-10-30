@@ -3,7 +3,7 @@ import { useState } from "react";
 import RecipeForm from "./Forms/RecipeForm";
 import { Row, Spacer } from "./styled";
 
-function Recipes({ dataset }) {
+function Recipes() {
 
   const [cookbook, updateCookbook] = useState()
   const [add, setAdd] = useState(false)

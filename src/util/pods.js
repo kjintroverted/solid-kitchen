@@ -1,7 +1,16 @@
-import { createSolidDataset, getSolidDataset, getThing, saveSolidDatasetAt, setThing } from "@inrupt/solid-client";
+import {
+  createSolidDataset,
+  getSolidDataset,
+  getThing,
+  saveSolidDatasetAt,
+  setThing,
+  createThing
+} from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
+import { nanoid } from "nanoid";
 
 let updateQ = [];
+let appDataSetURL;
 
 export async function appLogin() {
   await login({
@@ -18,6 +27,7 @@ export async function initDataset(url) {
 }
 
 export async function loadDataset(url) {
+  appDataSetURL = url;
   let dataset;
   try {
     dataset = await getSolidDataset(url, { fetch })
@@ -55,16 +65,27 @@ export function addToUpdateQueue(thing) {
 
 }
 
+export function newThing(name) {
+  let id = `${ name }-${ nanoid() }`;
+  return createThing({ name: id })
+}
+
 export function setAttr(thing, attribute, value) {
+  thing = attribute.set(thing, attribute.predicate, value)
+  return thing;
+}
+
+export function updateAttr(thing, attribute, value) {
   thing = attribute.set(thing, attribute.predicate, value)
   addToUpdateQueue(thing)
   return thing;
 }
 
 export async function saveThing(thing) {
-  let dataset = await getSolidDataset(resourceURL(thing.url), { fetch })
+  let dataset = await getSolidDataset(appDataSetURL, { fetch })
   dataset = setThing(dataset, thing);
-  await saveSolidDatasetAt(resourceURL(thing.url), dataset, { fetch })
+  await saveSolidDatasetAt(appDataSetURL, dataset, { fetch })
+  return appDataSetURL + "#" + getThingNameFromTempURL(thing.url)
 }
 
 export async function save() {
@@ -73,6 +94,6 @@ export async function save() {
   return true;
 }
 
-function resourceURL(url) {
-  return url.split('#')[0];
+function getThingNameFromTempURL(url) {
+  return url.split('/').splice(-1);
 }

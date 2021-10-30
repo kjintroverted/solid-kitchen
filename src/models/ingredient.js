@@ -1,5 +1,5 @@
 import { getStringNoLocale, setStringNoLocale } from "@inrupt/solid-client";
-import { FOAF, VCARD, RDF } from "@inrupt/vocab-common-rdf";
+import { FOAF, RDF } from "@inrupt/vocab-common-rdf";
 
 export const ingredientStruct = {
   qty: { // STRING

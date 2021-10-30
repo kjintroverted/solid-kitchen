@@ -1,5 +1,8 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ingredientStruct } from "../../models/ingredient";
+import { recipeStruct } from "../../models/recipe";
+import { newThing, saveThing, setAttr } from "../../util/pods";
 import { Card, Row } from "../styled";
 
 function RecipeForm({ addRecipe }) {
@@ -8,6 +11,10 @@ function RecipeForm({ addRecipe }) {
     ingredients: [],
     steps: []
   });
+
+  const [thing, setThing] = useState();
+  const [ingList, updateIngList] = useState([]);
+  const [ingThing, setIngThing] = useState();
   const [addIngredient, setAddIngredient] = useState(false);
   const [ingredient, updateIngredient] = useState({});
   const [addStep, setAddStep] = useState(false);
@@ -16,12 +23,26 @@ function RecipeForm({ addRecipe }) {
   function handleRecipeChange(field) {
     return ({ target }) => {
       updateRecipe({ ...recipe, [field]: target.value })
+      setThing(setAttr(thing, recipeStruct[field], target.value))
     }
+  }
+
+  function submitStep() {
+    updateRecipe({ ...recipe, steps: [...recipe.steps, step] })
+    setThing(setAttr(thing, recipeStruct['steps'], step))
+    updateStep({})
+    setAddStep(false)
+  }
+
+  function toggleIngredient() {
+    setIngThing(newThing('ingredient'))
+    setAddIngredient(!addIngredient)
   }
 
   function handleIngredientChange(field) {
     return ({ target }) => {
       updateIngredient({ ...ingredient, [field]: target.value })
+      setIngThing(setAttr(ingThing, ingredientStruct[field], target.value))
     }
   }
 
@@ -29,19 +50,28 @@ function RecipeForm({ addRecipe }) {
     updateRecipe({ ...recipe, ingredients: [...recipe.ingredients, ingredient] })
     updateIngredient({})
     setAddIngredient(false)
+    updateIngList([...ingList, ingThing]);
   }
 
-  function submitStep() {
-    updateRecipe({ ...recipe, steps: [...recipe.steps, step] })
-    updateStep({})
-    setAddStep(false)
+  async function saveRecipe() {
+    let t = thing;
+    for (let x in ingList) {
+      let url = await saveThing(ingList[x])
+      t = setAttr(t, recipeStruct.ingredients, url)
+    }
+    await saveThing(t)
+    console.log('saved recipe');
   }
+
+  useEffect(() => {
+    setThing(newThing('recipe'))
+  }, [])
 
   return (
     <Card>
       <TextField
         fullWidth
-        onChange={ handleRecipeChange("title") }
+        onChange={ handleRecipeChange("name") }
         placeholder="Something delicious..."
         label="What's cooking?" />
 
@@ -51,7 +81,7 @@ function RecipeForm({ addRecipe }) {
         {
           recipe.ingredients &&
           recipe.ingredients.map(({ qty, item }) => (
-            <li>
+            <li key={ item }>
               <Row align="center">
                 <p>{ qty }</p><h3>{ item }</h3>
               </Row>
@@ -77,7 +107,7 @@ function RecipeForm({ addRecipe }) {
           </IconButton>
         </Row>
       }
-      <Button color="primary" onClick={ () => setAddIngredient(!addIngredient) }>
+      <Button color="primary" onClick={ toggleIngredient }>
         <span className="material-icons">{ addIngredient ? 'close' : 'add' }</span>
       </Button>
 
@@ -85,8 +115,8 @@ function RecipeForm({ addRecipe }) {
       <ol>
         {
           recipe.steps &&
-          recipe.steps.map(step => (
-            <li>
+          recipe.steps.map((step, i) => (
+            <li key={ `step-${ i }` }>
               <Row align="center">
                 <p>{ step }</p>
               </Row>
@@ -115,7 +145,7 @@ function RecipeForm({ addRecipe }) {
         variant="contained"
         color="primary"
         className="self-end"
-        onClick={ addRecipe }>
+        onClick={ saveRecipe }>
         Save
       </Button>
     </Card>
