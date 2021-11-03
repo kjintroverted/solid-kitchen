@@ -6,14 +6,15 @@ import { updateAttr } from "../util/pods";
 import { BigBar, BigIconHeader, Column, Spacer } from "./styled";
 
 
-function Profile({ profile, profileThing, onChange, submit }) {
+function Profile({ profile, onChange, submit }) {
 
   const [edit, toggleEdit] = useState(false);
   const [thing, setThing] = useState();
 
   useEffect(() => {
-    setThing(profileThing)
-  }, [profileThing])
+    if (!profile) return
+    setThing(profile.thing)
+  }, [profile])
 
   function update(field) {
     return ({ target }) => {

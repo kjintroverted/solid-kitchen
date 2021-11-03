@@ -4,7 +4,8 @@ import {
   getThing,
   saveSolidDatasetAt,
   setThing,
-  createThing
+  createThing,
+  getThingAll
 } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
 import { nanoid } from "nanoid";
@@ -26,7 +27,7 @@ export async function initDataset(url) {
   return dataset;
 }
 
-export async function loadDataset(url) {
+export async function loadDataset(url = appDataSetURL) {
   appDataSetURL = url;
   let dataset;
   try {
@@ -43,6 +44,10 @@ export async function loadDataset(url) {
   return dataset;
 }
 
+export function getThings(dataset) {
+  return getThingAll(dataset)
+}
+
 export async function loadThing(url, struct) {
   if (!getDefaultSession().info.isLoggedIn) {
     logout()
@@ -55,14 +60,13 @@ export async function loadThing(url, struct) {
     let attribute = struct[field]
     datum[field] = attribute.parse(thing, attribute.predicate)
   }
-  return [thing, datum];
+  return { ...datum, thing };
 }
 
 export function addToUpdateQueue(thing) {
   let i = updateQ.findIndex(e => thing.url === e.url);
   if (i < 0) updateQ = [...updateQ, thing];
   else updateQ.splice(i, 1, thing)
-
 }
 
 export function newThing(name) {
@@ -82,10 +86,13 @@ export function updateAttr(thing, attribute, value) {
 }
 
 export async function saveThing(thing) {
-  let dataset = await getSolidDataset(appDataSetURL, { fetch })
+  const dataURL = isTemp(thing.url) ? appDataSetURL : resourceURL(thing.url);
+  let dataset = await getSolidDataset(dataURL, { fetch })
   dataset = setThing(dataset, thing);
-  await saveSolidDatasetAt(appDataSetURL, dataset, { fetch })
-  return appDataSetURL + "#" + getThingNameFromTempURL(thing.url)
+  await saveSolidDatasetAt(dataURL, dataset, { fetch })
+  return isTemp(thing.url) ?
+    appDataSetURL + "#" + getThingNameFromTempURL(thing.url)
+    : thing.url;
 }
 
 export async function save() {
@@ -96,4 +103,12 @@ export async function save() {
 
 function getThingNameFromTempURL(url) {
   return url.split('/').splice(-1);
+}
+
+function resourceURL(url) {
+  return url.split('#')[0];
+}
+
+function isTemp(url) {
+  return url.indexOf('#') < 0;
 }
