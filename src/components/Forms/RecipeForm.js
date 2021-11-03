@@ -57,7 +57,7 @@ function RecipeForm({ onSubmit }) {
     let t = thing;
     for (let x in ingList) {
       let url = await saveThing(ingList[x])
-      t = setAttr(t, recipeStruct.ingredients, url)
+      t = setAttr(t, recipeStruct.ingredientRefs, url)
     }
     await saveThing(t)
     console.log('saved recipe');

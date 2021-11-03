@@ -18,7 +18,7 @@ export const recipeStruct = {
     parse: getStringNoLocaleAll,
     set: addStringNoLocale
   },
-  ingredients: { // THING
+  ingredientRefs: { // THING
     predicate: FOAF.maker,
     struct: ingredientStruct,
     parse: getUrlAll,

@@ -121,4 +121,5 @@ export const Card = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  margin-top: .5em;
 `

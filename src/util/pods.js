@@ -106,6 +106,10 @@ export function getDomain(url) {
   return regex.exec(url)[0];
 }
 
+export function nameFilter(str) {
+  return thing => thing.url.indexOf(str) >= 0
+}
+
 function getThingNameFromTempURL(url) {
   return url.split('/').splice(-1);
 }
