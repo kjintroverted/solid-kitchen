@@ -45,22 +45,22 @@ function Recipes({ data }) {
         <Spacer />
         { !recipes.length && <h3>No recipes yet...</h3> }
         <Spacer />
-        <Button variant="outlined" onClick={ () => setAdd(!add) } color="primary">
-          <span className="material-icons">{ add ? 'close' : 'add' }</span>
+        <Button variant={ add ? 'text' : 'contained' } onClick={ () => setAdd(!add) } color="primary">
+          <span>{ add ? 'cancel' : 'add recipe' }</span>
         </Button>
       </Row>
       {
+        add &&
+        <RecipeForm onSubmit={ () => setAdd(false) } />
+      }
+      {
         recipes.map(r => (
-          <Card>
+          <Card key={ r.thing.url }>
             <h3>{ r.name }</h3>
             <b>Includes:</b>
             <p>{ r.ingredients.map(i => i.item).join(', ') }</p>
           </Card>
         ))
-      }
-      {
-        add &&
-        <RecipeForm onSubmit={ () => setAdd(false) } />
       }
     </>
   )

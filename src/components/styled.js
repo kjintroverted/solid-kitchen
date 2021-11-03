@@ -67,6 +67,7 @@ export const HeaderBar = styled.div`
   align-items: center;
   background: ${ THEME.primary };
   color: ${ THEME.light };
+  margin-bottom: .5em;
   & * {
     margin: 0em .5em;
   }
