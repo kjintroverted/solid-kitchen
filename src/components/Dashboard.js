@@ -3,7 +3,7 @@ import Recipes from './Recipes'
 import { IconButton } from '@material-ui/core'
 import { Link } from "react-router-dom";
 
-function Dashboard({ name, cookbook }) {
+function Dashboard({ name, data }) {
 
   return (
     <>
@@ -18,7 +18,7 @@ function Dashboard({ name, cookbook }) {
       </HeaderBar>
       <Content>
         <Pane>
-          <Recipes dataset={ cookbook } />
+          <Recipes data={ data } />
         </Pane>
       </Content>
     </>

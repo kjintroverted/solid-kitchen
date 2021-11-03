@@ -5,7 +5,7 @@ import { recipeStruct } from "../../models/recipe";
 import { newThing, saveThing, setAttr } from "../../util/pods";
 import { Card, Row } from "../styled";
 
-function RecipeForm({ addRecipe }) {
+function RecipeForm({ onSubmit }) {
 
   const [recipe, updateRecipe] = useState({
     ingredients: [],
@@ -61,6 +61,7 @@ function RecipeForm({ addRecipe }) {
     }
     await saveThing(t)
     console.log('saved recipe');
+    onSubmit();
   }
 
   useEffect(() => {

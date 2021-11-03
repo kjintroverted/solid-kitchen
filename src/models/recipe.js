@@ -1,4 +1,4 @@
-import { addStringNoLocale, getStringNoLocale, getStringNoLocaleAll, getUrlAll, setStringNoLocale, setUrl } from "@inrupt/solid-client";
+import { addStringNoLocale, addUrl, getStringNoLocale, getStringNoLocaleAll, getUrlAll, setStringNoLocale } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import { ingredientStruct } from "./ingredient";
 
@@ -22,6 +22,6 @@ export const recipeStruct = {
     predicate: FOAF.maker,
     struct: ingredientStruct,
     parse: getUrlAll,
-    set: setUrl
+    set: addUrl
   }
 }

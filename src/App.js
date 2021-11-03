@@ -1,6 +1,6 @@
 import './App.css';
 import { Main, muiTheme } from './components/styled';
-import { appLogin, getThings, loadDataset, loadThing, save } from './util/pods';
+import { appLogin, getDomain, getThings, loadDataset, loadThing, save } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
 import models from './models'
@@ -31,16 +31,12 @@ function App() {
       loadThing(user, models.profileStruct)
         .then(setProfile)
       // LOAD COOKBOOK DATASET
-      loadDataset(user.replace("/card#me", "") + "/cookbook")
+      loadDataset(getDomain(user) + "/kitchen")
         .then(data => {
           setThings(getThings(data))
         });
     }
   }, [user])
-
-  useEffect(() => {
-
-  }, [things])
 
   return (
     <ThemeProvider theme={ muiTheme }>

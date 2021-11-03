@@ -101,6 +101,11 @@ export async function save() {
   return true;
 }
 
+export function getDomain(url) {
+  const regex = /https:\/\/([^,\s]+\.[^,\s]+?)(?=\/|,|\s|$|\?|#)/g;
+  return regex.exec(url)[0];
+}
+
 function getThingNameFromTempURL(url) {
   return url.split('/').splice(-1);
 }
