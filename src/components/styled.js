@@ -124,3 +124,21 @@ export const Card = styled.div`
   flex-direction: column;
   margin-top: .5em;
 `
+
+export const Title = styled.h2`
+  margin: .5em 0;
+  font-weight: 200;
+`
+
+export const CardContent = styled.span``
+
+export const Label = styled.span`
+  opacity: .6;
+  margin: .3em 0;
+`
+
+export const Divider = styled.hr`
+  width: 100%;
+  border-color: ${ THEME.light };
+  border-style: solid;
+`

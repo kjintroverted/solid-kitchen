@@ -4,7 +4,8 @@ import { recipeStruct } from "../models/recipe";
 import { ingredientStruct } from "../models/ingredient";
 import { loadThing, nameFilter } from "../util/pods";
 import RecipeForm from "./Forms/RecipeForm";
-import { Card, Row, Spacer } from "./styled";
+import { Row, Spacer } from "./styled";
+import RecipeCard from "./RecipeCard";
 
 function Recipes({ data }) {
 
@@ -54,13 +55,7 @@ function Recipes({ data }) {
         <RecipeForm onSubmit={ () => setAdd(false) } />
       }
       {
-        recipes.map(r => (
-          <Card key={ r.thing.url }>
-            <h3>{ r.name }</h3>
-            <b>Includes:</b>
-            <p>{ r.ingredients.map(i => i.item).join(', ') }</p>
-          </Card>
-        ))
+        recipes.map(r => <RecipeCard key={ r.thing.url } recipe={ r } />)
       }
     </>
   )
