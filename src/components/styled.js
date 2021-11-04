@@ -33,6 +33,7 @@ export const Row = styled.div`
   display: flex;
   justify-content: ${ props => props.justify };
   align-items: ${ props => props.align };
+  flex-wrap: ${ props => props.wrap };
   & * {
     margin: 0px 5px;
   }
