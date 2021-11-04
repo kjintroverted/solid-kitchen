@@ -15,6 +15,8 @@ function RecipeCard({ recipes }) {
     setRecipe(recipes.find(r => r.thing.url.indexOf(recipe_id) >= 0))
   }, [recipe_id, recipes])
 
+  if (!recipe.name) return <></>
+
   return (
     <Container>
       <Title>{ recipe.name }</Title>
@@ -27,7 +29,7 @@ function RecipeCard({ recipes }) {
       <h4>Instructions</h4>
       <ul>
         {
-          recipe.steps.map(s => <li>{ s }</li>)
+          recipe.steps.map(s => <li key={ s }>{ s }</li>)
         }
       </ul>
     </Container>
