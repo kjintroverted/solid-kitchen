@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { resourceName } from "../../util/pods";
-import { ActionBar, Card, CardContent, Divider, Label, Row, Spacer, Title } from "../styled";
+import { ActionBar, Card, CardContent, Divider, Label, Title } from "../styled";
 
 function RecipePreview({ recipe }) {
   return (
