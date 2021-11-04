@@ -4,6 +4,7 @@ import RecipeForm from "./RecipeForm";
 import { Pane, Row, Spacer } from "../styled";
 import { Route } from "react-router";
 import RecipePreview from "./RecipePreview";
+import RecipeCard from "./RecipeCard";
 
 function Recipes({ recipes }) {
 
@@ -29,7 +30,7 @@ function Recipes({ recipes }) {
         }
       </Pane>
       <Route path="/:recipe_id">
-
+        <RecipeCard recipes={ recipes } />
       </Route>
     </>
   )

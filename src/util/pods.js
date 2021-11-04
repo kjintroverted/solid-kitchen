@@ -118,6 +118,10 @@ function resourceURL(url) {
   return url.split('#')[0];
 }
 
+export function resourceName(url) {
+  return url.split('#')[1];
+}
+
 function isTemp(url) {
   return url.indexOf('#') < 0;
 }
