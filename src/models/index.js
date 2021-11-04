@@ -1,7 +1,1 @@
-import { profileStruct } from './profile'
-
-const models = {
-  profileStruct
-}
-
-export default models;
+export { default as profileStruct } from './profile'

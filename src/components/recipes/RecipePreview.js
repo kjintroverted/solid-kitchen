@@ -1,8 +1,8 @@
-import { Card, CardContent, Divider, Label, Title } from "./styled";
+import { Card, CardContent, Divider, Label, Title } from "../styled";
 
-function RecipeCard({ recipe }) {
+function RecipePreview({ recipe }) {
   return (
-    <Card>
+    <Card className="click">
       <Title>{ recipe.name }</Title>
       <Divider />
       <Label>Needs</Label>
@@ -11,4 +11,4 @@ function RecipeCard({ recipe }) {
   )
 }
 
-export default RecipeCard;
+export default RecipePreview;

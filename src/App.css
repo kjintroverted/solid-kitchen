@@ -15,6 +15,10 @@ ul {
   font-size: xx-large;
 }
 
+.click {
+  cursor: pointer;
+}
+
 /* MATERIAL OVERRIDES */
 input {
   min-width: 200px !important;

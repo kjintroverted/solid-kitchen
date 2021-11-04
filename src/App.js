@@ -3,7 +3,7 @@ import { Main, muiTheme } from './components/styled';
 import { appLogin, getDomain, getThings, loadDataset, loadThing, save } from './util/pods';
 import { useEffect, useState } from 'react';
 import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
-import models from './models'
+import { profileStruct } from './models'
 import Profile from './components/Profile';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     if (user) {
       // LOAD PROFILE
-      loadThing(user, models.profileStruct)
+      loadThing(user, profileStruct)
         .then(setProfile)
       // LOAD COOKBOOK DATASET
       loadDataset(getDomain(user) + "/kitchen")

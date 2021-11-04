@@ -1,7 +1,7 @@
 import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { profileStruct } from "../models/profile";
+import { profileStruct } from "../models";
 import { updateAttr } from "../util/pods";
 import { BigBar, BigIconHeader, Column, Spacer } from "./styled";
 
