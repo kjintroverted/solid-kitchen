@@ -125,12 +125,19 @@ export const Card = styled.div`
   margin-top: .5em;
 `
 
+export const ActionBar = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  padding: .7em 0;
+`
+
 export const Title = styled.h2`
   margin: .5em 0;
   font-weight: 200;
 `
 
-export const CardContent = styled.span``
+export const CardContent = styled.span`
+`
 
 export const Label = styled.span`
   opacity: .6;

@@ -1,21 +1,23 @@
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Card, CardContent, Divider, Label, Row, Spacer, Title } from "../styled";
+import { resourceName } from "../../util/pods";
+import { ActionBar, Card, CardContent, Divider, Label, Row, Spacer, Title } from "../styled";
 
 function RecipePreview({ recipe }) {
   return (
     <Card className="click">
-      <Row align="center">
-        <Title>{ recipe.name }</Title>
-        <Spacer />
-        <Link to="/:recipe_id">
-          <Button variant="text" color="primary">View</Button>
-        </Link>
-      </Row>
+      <Title>{ recipe.name }</Title>
       <Divider />
       <Label>Needs</Label>
-      <CardContent>{ recipe.ingredients.map(i => i.item).join(', ') }</CardContent>
-    </Card>
+      <CardContent>
+        { recipe.ingredients.map(i => i.item).join(', ') }
+      </CardContent>
+      <ActionBar>
+        <Link to={ `/${ resourceName(recipe.thing.url) }` }>
+          <Button variant="text" color="primary">View</Button>
+        </Link>
+      </ActionBar>
+    </Card >
   )
 }
 
