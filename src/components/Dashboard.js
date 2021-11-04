@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
 import { ingredientStruct } from "../models/ingredient";
-import { loadThing, nameFilter } from "../util/pods";
+import { loadThing, deleteThing, nameFilter } from "../util/pods";
 import { Recipes } from "./recipes";
 
 function Dashboard({ name, data }) {
@@ -40,6 +40,19 @@ function Dashboard({ name, data }) {
     })
   }
 
+  async function deleteRecipe(recipe) {
+    for (let i in recipe.ingredients) {
+      await deleteThing(recipe.ingredients[i].thing)
+    }
+    await deleteThing(recipe.thing)
+    let index = recipes.findIndex(r => r.thing.url === recipe.thing.url)
+    setRecipes([
+      ...recipes.slice(0, index),
+      ...recipes.slice(index + 1)
+    ])
+    console.log('Deleted ' + recipe.name);
+  }
+
   return (
     <>
       <HeaderBar>
@@ -52,7 +65,7 @@ function Dashboard({ name, data }) {
         </Link>
       </HeaderBar>
       <Content>
-        <Recipes recipes={ recipes } />
+        <Recipes deleteRecipe={ deleteRecipe } recipes={ recipes } />
       </Content>
     </>
   )

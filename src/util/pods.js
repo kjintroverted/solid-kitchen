@@ -5,6 +5,7 @@ import {
   saveSolidDatasetAt,
   setThing,
   createThing,
+  removeThing,
   getThingAll
 } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
@@ -93,6 +94,14 @@ export async function saveThing(thing) {
   return isTemp(thing.url) ?
     appDataSetURL + "#" + getThingNameFromTempURL(thing.url)
     : thing.url;
+}
+
+export async function deleteThing(thing) {
+  const dataURL = resourceURL(thing.url);
+  let dataset = await getSolidDataset(dataURL, { fetch })
+  dataset = removeThing(dataset, thing);
+  await saveSolidDatasetAt(dataURL, dataset, { fetch })
+  return dataset;
 }
 
 export async function save() {

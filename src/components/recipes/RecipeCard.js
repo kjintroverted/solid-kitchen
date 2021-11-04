@@ -1,11 +1,11 @@
-import { Divider } from "@material-ui/core";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Divider, IconButton } from "@material-ui/core";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Row, Title } from "../styled";
+import { Row, Spacer, Title } from "../styled";
 
-function RecipeCard({ recipes }) {
+function RecipeCard({ recipes, deleteRecipe }) {
 
   const { recipe_id } = useParams();
   const [recipe, setRecipe] = useState({});
@@ -19,7 +19,15 @@ function RecipeCard({ recipes }) {
 
   return (
     <Container>
-      <Title>{ recipe.name }</Title>
+      <Row>
+        <Title>{ recipe.name }</Title>
+        <Spacer />
+        <Link to="/">
+          <IconButton color="secondary" onClick={ () => deleteRecipe(recipe) }>
+            <span className="material-icons">delete</span>
+          </IconButton>
+        </Link>
+      </Row>
       <Divider />
       <Row wrap='wrap'>
         {
