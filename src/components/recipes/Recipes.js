@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useState } from "react";
 import RecipeForm from "./RecipeForm";
 import { Pane, Row, Spacer } from "../styled";
@@ -9,14 +9,17 @@ import RecipeCard from "./RecipeCard";
 function Recipes({ recipes, deleteRecipe }) {
 
   const [add, setAdd] = useState(false);
+  const [filter, updateFilter] = useState("");
 
   return (
     <>
       <Route path="/" exact={ window.innerWidth < 500 }>
         <Pane>
           <Row justify="flex-start" align="center">
-            <Spacer />
             { (recipes && !recipes.length) && <h3>No recipes yet...</h3> }
+            { (recipes && recipes.length) &&
+              <TextField placeholder="Search..." onChange={ e => updateFilter(e.target.value) } />
+            }
             <Spacer />
             <Button variant={ add ? 'text' : 'contained' } onClick={ () => setAdd(!add) } color="primary">
               <span>{ add ? 'cancel' : 'add recipe' }</span>
@@ -28,7 +31,12 @@ function Recipes({ recipes, deleteRecipe }) {
           }
           {
             recipes &&
-            recipes.map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
+            recipes
+              .filter(r => !filter
+                || r.name.toLowerCase().indexOf(filter) >= 0
+                || r.ingredients.findIndex(i => i.item.toLowerCase().indexOf(filter) >= 0) >= 0
+              )
+              .map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
           }
         </Pane>
       </Route>
