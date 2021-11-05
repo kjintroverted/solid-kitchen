@@ -16,7 +16,7 @@ function Recipes({ recipes, deleteRecipe }) {
         <Pane>
           <Row justify="flex-start" align="center">
             <Spacer />
-            { !recipes.length && <h3>No recipes yet...</h3> }
+            { (recipes && !recipes.length) && <h3>No recipes yet...</h3> }
             <Spacer />
             <Button variant={ add ? 'text' : 'contained' } onClick={ () => setAdd(!add) } color="primary">
               <span>{ add ? 'cancel' : 'add recipe' }</span>
@@ -27,6 +27,7 @@ function Recipes({ recipes, deleteRecipe }) {
             <RecipeForm onSubmit={ () => setAdd(false) } />
           }
           {
+            recipes &&
             recipes.map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
           }
         </Pane>

@@ -11,7 +11,7 @@ function RecipeCard({ recipes, deleteRecipe }) {
   const [recipe, setRecipe] = useState({});
 
   useEffect(() => {
-    if (!recipes.length) return
+    if (!recipes || !recipes.length) return
     setRecipe(recipes.find(r => r.thing.url.indexOf(recipe_id) >= 0))
   }, [recipe_id, recipes])
 

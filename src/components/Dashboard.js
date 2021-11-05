@@ -9,7 +9,7 @@ import { Recipes } from "./recipes";
 function Dashboard({ name, data }) {
 
 
-  const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState()
 
   useEffect(() => {
     if (!data) return
