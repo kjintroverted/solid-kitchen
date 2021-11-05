@@ -1,6 +1,6 @@
-import { addStringNoLocale, addUrl, getStringNoLocale, getStringNoLocaleAll, getUrlAll, setStringNoLocale } from "@inrupt/solid-client";
+import { getStringNoLocale, setStringNoLocale } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
-import { ingredientStruct } from "./ingredient";
+import { getAndParse, stringifyAndSet } from "../util/pods";
 
 export const recipeStruct = {
   name: { // STRING
@@ -15,13 +15,12 @@ export const recipeStruct = {
   },
   steps: { // STRING LIST
     predicate: FOAF.plan,
-    parse: getStringNoLocaleAll,
-    set: addStringNoLocale
+    parse: getAndParse(getStringNoLocale),
+    set: stringifyAndSet(setStringNoLocale)
   },
-  ingredientRefs: { // THING
+  ingredients: { // THING
     predicate: FOAF.maker,
-    struct: ingredientStruct,
-    parse: getUrlAll,
-    set: addUrl
+    parse: getAndParse(getStringNoLocale),
+    set: stringifyAndSet(setStringNoLocale)
   }
 }

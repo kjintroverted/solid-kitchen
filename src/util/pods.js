@@ -134,3 +134,17 @@ export function resourceName(url) {
 function isTemp(url) {
   return url.indexOf('#') < 0;
 }
+
+export function getAndParse(get) {
+  return (thing, url) => {
+    let rawData = get(thing, url);
+    return JSON.parse(rawData);
+  }
+}
+
+export function stringifyAndSet(set) {
+  return (thing, url, data) => {
+    let value = JSON.stringify(data);
+    return set(thing, url, value);
+  }
+}

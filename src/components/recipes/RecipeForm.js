@@ -1,6 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { ingredientStruct } from "../../models/ingredient";
 import { recipeStruct } from "../../models/recipe";
 import { newThing, saveThing, setAttr } from "../../util/pods";
 import { Card, Row } from "../styled";
@@ -13,8 +12,6 @@ function RecipeForm({ onSubmit }) {
   });
 
   const [thing, setThing] = useState();
-  const [ingList, updateIngList] = useState([]);
-  const [ingThing, setIngThing] = useState();
   const [addIngredient, setAddIngredient] = useState(false);
   const [ingredient, updateIngredient] = useState({});
   const [addStep, setAddStep] = useState(false);
@@ -28,38 +25,33 @@ function RecipeForm({ onSubmit }) {
   }
 
   function submitStep() {
-    updateRecipe({ ...recipe, steps: [...recipe.steps, step] })
-    setThing(setAttr(thing, recipeStruct['steps'], step))
+    let steps = [...recipe.steps, step];
+    updateRecipe({ ...recipe, steps })
+    setThing(setAttr(thing, recipeStruct['steps'], steps))
     updateStep({})
     setAddStep(false)
   }
 
   function toggleIngredient() {
-    setIngThing(newThing('ingredient'))
     setAddIngredient(!addIngredient)
   }
 
   function handleIngredientChange(field) {
     return ({ target }) => {
       updateIngredient({ ...ingredient, [field]: target.value })
-      setIngThing(setAttr(ingThing, ingredientStruct[field], target.value))
     }
   }
 
   function submitIngredient() {
-    updateRecipe({ ...recipe, ingredients: [...recipe.ingredients, ingredient] })
+    let ingredients = [...recipe.ingredients, ingredient];
+    updateRecipe({ ...recipe, ingredients })
+    setThing(setAttr(thing, recipeStruct['ingredients'], ingredients))
     updateIngredient({})
     setAddIngredient(false)
-    updateIngList([...ingList, ingThing]);
   }
 
   async function saveRecipe() {
-    let t = thing;
-    for (let x in ingList) {
-      let url = await saveThing(ingList[x])
-      t = setAttr(t, recipeStruct.ingredientRefs, url)
-    }
-    await saveThing(t)
+    await saveThing(thing)
     console.log('saved recipe');
     onSubmit();
   }

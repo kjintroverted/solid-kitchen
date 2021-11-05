@@ -8,7 +8,7 @@ import RecipeCard from "./RecipeCard";
 
 function Recipes({ recipes, deleteRecipe }) {
 
-  const [add, setAdd] = useState(false)
+  const [add, setAdd] = useState(false);
 
   return (
     <>

@@ -3,7 +3,6 @@ import { IconButton } from '@material-ui/core'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
-import { ingredientStruct } from "../models/ingredient";
 import { loadThing, deleteThing, nameFilter } from "../util/pods";
 import { Recipes } from "./recipes";
 
@@ -20,30 +19,14 @@ function Dashboard({ name, data }) {
 
   async function loadRecipes(things) {
     // GET ALL RECIPE DATA
-    let rList = await Promise.all(
+    return await Promise.all(
       things
         .filter(nameFilter('recipe'))
         .map(t => loadThing(t.url, recipeStruct))
     );
-    // GET ALL INGREDIENT DATA
-    let iList = await Promise.all(
-      things
-        .filter(nameFilter('ingredient'))
-        .map(t => loadThing(t.url, ingredientStruct))
-    );
-    // MAP THE INGREDIENTS INTO THE CORRECT RECIPE
-    return rList.map(r => {
-      return {
-        ...r,
-        ingredients: r.ingredientRefs.map(url => iList.find(i => i.thing.url === url))
-      }
-    })
   }
 
   async function deleteRecipe(recipe) {
-    for (let i in recipe.ingredients) {
-      await deleteThing(recipe.ingredients[i].thing)
-    }
     await deleteThing(recipe.thing)
     let index = recipes.findIndex(r => r.thing.url === recipe.thing.url)
     setRecipes([
