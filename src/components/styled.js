@@ -140,6 +140,11 @@ export const Title = styled.h2`
   font-weight: 200;
 `
 
+export const Subtitle = styled.h4`
+  margin: .5em 0;
+  font-weight: 200;
+`
+
 export const CardContent = styled.span`
 `
 

@@ -19,6 +19,10 @@ ul {
   cursor: pointer;
 }
 
+ol {
+  margin: 0px;
+}
+
 /* MATERIAL OVERRIDES */
 input {
   min-width: 200px !important;

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Row, Spacer, Title } from "../styled";
+import { Row, Spacer, Subtitle, Title } from "../styled";
 
 function RecipeCard({ recipes, deleteRecipe }) {
 
@@ -34,12 +34,12 @@ function RecipeCard({ recipes, deleteRecipe }) {
           recipe.ingredients.map(i => <Item key={ i.item }>{ i.qty } <b>{ i.item }</b></Item>)
         }
       </Row>
-      <h4>Instructions</h4>
-      <ul>
+      <Subtitle>Instructions</Subtitle>
+      <ol>
         {
           recipe.steps.map(s => <li key={ s }>{ s }</li>)
         }
-      </ul>
+      </ol>
     </Container>
   )
 }
