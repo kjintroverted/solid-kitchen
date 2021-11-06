@@ -1,10 +1,11 @@
-import { Content, HeaderBar, Spacer } from "./styled";
+import { HeaderBar, Spacer } from "./styled";
 import { IconButton } from '@material-ui/core'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
 import { loadThing, deleteThing, nameFilter } from "../util/pods";
 import { Recipes } from "./recipes";
+import styled from "styled-components";
 
 function Dashboard({ name, data }) {
 
@@ -36,8 +37,12 @@ function Dashboard({ name, data }) {
     console.log('Deleted ' + recipe.name);
   }
 
+  function addRecipe(recipe) {
+    setRecipes([...recipes, recipe])
+  }
+
   return (
-    <>
+    <Layout>
       <HeaderBar>
         <h2>{ name ? `${ name }'s` : "My" } Kitchen</h2>
         <Spacer />
@@ -47,11 +52,26 @@ function Dashboard({ name, data }) {
           </IconButton>
         </Link>
       </HeaderBar>
-      <Content>
-        <Recipes deleteRecipe={ deleteRecipe } recipes={ recipes } />
-      </Content>
-    </>
+      <Main>
+        <Recipes deleteRecipe={ deleteRecipe } recipes={ recipes } addRecipe={ addRecipe } />
+      </Main>
+    </Layout>
   )
 }
 
 export default Dashboard;
+
+const Layout = styled.div`
+  display: grid;
+  grid-template-rows: 5.2em 1fr;
+  grid-template-areas: 
+    "header"
+    "main";
+`
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  grid-area: main;
+`

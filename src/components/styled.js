@@ -53,15 +53,13 @@ export const Spacer = styled.span`
 `
 
 export const Main = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
   background: ${ THEME.light };
   color: ${ THEME.dark };
 `
 
 export const HeaderBar = styled.div`
-  position: relative;
+  position: fixed;
+  z-index: 1;
   width: 100%;
   height: 5em;
   display: flex;
@@ -108,13 +106,6 @@ export const Pane = styled.div`
   @media (max-width: 500px) {
     width: 100vw;
   }
-`
-
-export const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
 `
 
 export const Card = styled.div`

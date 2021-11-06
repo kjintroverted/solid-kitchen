@@ -1,15 +1,20 @@
 import { Button, TextField } from "@material-ui/core";
 import { useState } from "react";
 import RecipeForm from "./RecipeForm";
-import { Pane, Row, Spacer } from "../styled";
+import { Pane, Row } from "../styled";
 import { Route } from "react-router";
 import RecipePreview from "./RecipePreview";
 import RecipeCard from "./RecipeCard";
 
-function Recipes({ recipes, deleteRecipe }) {
+function Recipes({ recipes, deleteRecipe, addRecipe }) {
 
   const [add, setAdd] = useState(false);
   const [filter, updateFilter] = useState("");
+
+  function onSubmit(recipe) {
+    addRecipe(recipe);
+    setAdd(false);
+  }
 
   return (
     <>
@@ -18,16 +23,15 @@ function Recipes({ recipes, deleteRecipe }) {
           <Row justify="flex-start" align="center">
             { (recipes && !recipes.length) && <h3>No recipes yet...</h3> }
             { (recipes && recipes.length) &&
-              <TextField placeholder="Search..." onChange={ e => updateFilter(e.target.value) } />
+              <TextField style={ { flex: 1 } } placeholder="Search..." onChange={ e => updateFilter(e.target.value) } />
             }
-            <Spacer />
             <Button variant={ add ? 'text' : 'contained' } onClick={ () => setAdd(!add) } color="primary">
               <span>{ add ? 'cancel' : 'add recipe' }</span>
             </Button>
           </Row>
           {
             add &&
-            <RecipeForm onSubmit={ () => setAdd(false) } />
+            <RecipeForm onSubmit={ onSubmit } />
           }
           {
             recipes &&

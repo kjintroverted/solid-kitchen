@@ -1,11 +1,12 @@
-import { Button, IconButton, TextField } from "@material-ui/core";
+import { Button, CircularProgress, IconButton, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { recipeStruct } from "../../models/recipe";
-import { newThing, saveThing, setAttr } from "../../util/pods";
+import { loadThing, newThing, saveThing, setAttr } from "../../util/pods";
 import { Card, Row } from "../styled";
 
 function RecipeForm({ onSubmit }) {
 
+  const [saving, setSaving] = useState(false);
   const [recipe, updateRecipe] = useState({
     ingredients: [],
     steps: []
@@ -51,9 +52,12 @@ function RecipeForm({ onSubmit }) {
   }
 
   async function saveRecipe() {
-    await saveThing(thing)
+    setSaving(true);
+    debugger;
+    let url = await saveThing(thing)
     console.log('saved recipe');
-    onSubmit();
+    let newThing = await loadThing(url, recipeStruct);
+    onSubmit({ ...recipe, thing: newThing });
   }
 
   useEffect(() => {
@@ -139,7 +143,7 @@ function RecipeForm({ onSubmit }) {
         color="primary"
         className="self-end"
         onClick={ saveRecipe }>
-        Save
+        { saving ? <CircularProgress /> : 'Save' }
       </Button>
     </Card>
   )
