@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Row, Spacer, Subtitle, Title } from "../styled";
+import { recipeStruct } from "../../models/recipe";
+import { save, unsaved, updateAttr } from "../../util/pods";
+import { Row, SaveButton, Spacer, Subtitle, Title } from "../styled";
+import ChipField from "./ChipField";
 
 function RecipeCard({ recipes, deleteRecipe }) {
 
@@ -14,6 +17,12 @@ function RecipeCard({ recipes, deleteRecipe }) {
     if (!recipes || !recipes.length) return
     setRecipe(recipes.find(r => r.thing.url.indexOf(recipe_id) >= 0))
   }, [recipe_id, recipes])
+
+  function addTag(tag) {
+    let tags = recipe.tags ? [...recipe.tags, tag] : [tag];
+    let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    setRecipe({ ...recipe, thing, tags })
+  }
 
   if (!recipe.name) return <></>
 
@@ -40,6 +49,15 @@ function RecipeCard({ recipes, deleteRecipe }) {
           recipe.steps.map(s => <li key={ s }>{ s }</li>)
         }
       </ol>
+      <ChipField data={ recipe.tags || [] } onSubmit={ addTag } />
+      {
+        unsaved() &&
+        <SaveButton>
+          <IconButton variant="contained" color="secondary" onClick={ save }>
+            <span className="material-icons">save</span>
+          </IconButton>
+        </SaveButton>
+      }
     </Container>
   )
 }

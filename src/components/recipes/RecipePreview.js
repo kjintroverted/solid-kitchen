@@ -1,12 +1,18 @@
-import { Button } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { resourceName } from "../../util/pods";
-import { ActionBar, Card, CardContent, Divider, Label, Title } from "../styled";
+import { ActionBar, Card, CardContent, Divider, Label, Row, Title } from "../styled";
 
 function RecipePreview({ recipe }) {
   return (
     <Card className="click">
       <Title>{ recipe.name }</Title>
+      <Row>
+        {
+          recipe.tags &&
+          recipe.tags.map(t => <Chip label={ t } size="small" />)
+        }
+      </Row>
       <Divider />
       <Label>Needs</Label>
       <CardContent>

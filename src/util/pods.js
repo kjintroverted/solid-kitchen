@@ -6,7 +6,9 @@ import {
   setThing,
   createThing,
   removeThing,
-  getThingAll
+  getThingAll,
+  setStringNoLocale,
+  getStringNoLocale
 } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
 import { nanoid } from "nanoid";
@@ -68,6 +70,10 @@ export function addToUpdateQueue(thing) {
   let i = updateQ.findIndex(e => thing.url === e.url);
   if (i < 0) updateQ = [...updateQ, thing];
   else updateQ.splice(i, 1, thing)
+}
+
+export function unsaved() {
+  return !!updateQ.length;
 }
 
 export function newThing(name) {
@@ -135,16 +141,12 @@ function isTemp(url) {
   return url.indexOf('#') < 0;
 }
 
-export function getAndParse(get) {
-  return (thing, url) => {
-    let rawData = get(thing, url);
-    return JSON.parse(rawData);
-  }
+export function getAndParse(thing, url) {
+  let rawData = getStringNoLocale(thing, url);
+  return JSON.parse(rawData);
 }
 
-export function stringifyAndSet(set) {
-  return (thing, url, data) => {
-    let value = JSON.stringify(data);
-    return set(thing, url, value);
-  }
+export function stringifyAndSet(thing, url, data) {
+  let value = JSON.stringify(data);
+  return setStringNoLocale(thing, url, value);
 }

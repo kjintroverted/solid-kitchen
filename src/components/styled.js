@@ -149,3 +149,10 @@ export const Divider = styled.hr`
   border-color: ${ THEME.light };
   border-style: solid;
 `
+
+export const SaveButton = styled.div`
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
+`

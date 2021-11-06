@@ -10,17 +10,17 @@ export const recipeStruct = {
   },
   tags: { // STRING LIST
     predicate: FOAF.focus,
-    parse: getStringNoLocale,
-    set: setStringNoLocale
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   steps: { // STRING LIST
     predicate: FOAF.plan,
-    parse: getAndParse(getStringNoLocale),
-    set: stringifyAndSet(setStringNoLocale)
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   ingredients: { // THING
     predicate: FOAF.maker,
-    parse: getAndParse(getStringNoLocale),
-    set: stringifyAndSet(setStringNoLocale)
+    parse: getAndParse,
+    set: stringifyAndSet
   }
 }
