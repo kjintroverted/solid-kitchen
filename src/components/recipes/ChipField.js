@@ -18,6 +18,7 @@ function ChipField({ data, onSubmit }) {
         data.map(d => <Chip key={ d } color="primary" label={ d } size="small" />)
       }
       <TextField
+        color="primary"
         style={ { flex: 1 } }
         placeholder="add tag..."
         value={ value }

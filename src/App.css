@@ -23,6 +23,10 @@ ol {
   margin: 0px;
 }
 
+section {
+  margin: 0.5em 0;
+}
+
 /* MATERIAL OVERRIDES */
 input {
   min-width: 200px !important;

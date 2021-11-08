@@ -43,12 +43,14 @@ function RecipeCard({ recipes, deleteRecipe }) {
           recipe.ingredients.map(i => <Item key={ i.item }>{ i.qty } <b>{ i.item }</b></Item>)
         }
       </Row>
-      <Subtitle>Instructions</Subtitle>
-      <ol>
-        {
-          recipe.steps.map(s => <li key={ s }>{ s }</li>)
-        }
-      </ol>
+      <section>
+        <Subtitle>Instructions</Subtitle>
+        <ol>
+          {
+            recipe.steps.map(s => <li key={ s }>{ s }</li>)
+          }
+        </ol>
+      </section>
       <ChipField data={ recipe.tags || [] } onSubmit={ addTag } />
       {
         unsaved() &&
