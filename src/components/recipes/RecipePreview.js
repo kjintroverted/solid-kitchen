@@ -10,7 +10,7 @@ function RecipePreview({ recipe }) {
       <Row>
         {
           recipe.tags &&
-          recipe.tags.map(t => <Chip label={ t } size="small" />)
+          recipe.tags.map(t => <Chip key={ t } label={ t } size="small" />)
         }
       </Row>
       <Divider />

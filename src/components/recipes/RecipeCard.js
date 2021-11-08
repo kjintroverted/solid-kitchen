@@ -24,6 +24,14 @@ function RecipeCard({ recipes, deleteRecipe }) {
     setRecipe({ ...recipe, thing, tags })
   }
 
+  function removeTag(tag) {
+    debugger;
+    let i = recipe.tags.indexOf(tag);
+    let tags = [...recipe.tags.slice(0, i), ...recipe.tags.slice(i + 1)]
+    let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    setRecipe({ ...recipe, thing, tags })
+  }
+
   if (!recipe.name) return <></>
 
   return (
@@ -51,7 +59,7 @@ function RecipeCard({ recipes, deleteRecipe }) {
           }
         </ol>
       </section>
-      <ChipField data={ recipe.tags || [] } onSubmit={ addTag } />
+      <ChipField data={ recipe.tags || [] } onSubmit={ addTag } onDelete={ removeTag } />
       {
         unsaved() &&
         <SaveButton>
