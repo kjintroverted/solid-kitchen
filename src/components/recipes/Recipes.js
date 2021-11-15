@@ -39,6 +39,7 @@ function Recipes({ recipes, deleteRecipe, addRecipe }) {
               .filter(r => !filter
                 || r.name.toLowerCase().indexOf(filter) >= 0
                 || r.ingredients.findIndex(i => i.item.toLowerCase().indexOf(filter) >= 0) >= 0
+                || r.tags.findIndex(t => t.toLowerCase().indexOf(filter) >= 0) >= 0
               )
               .map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
           }
