@@ -1,26 +1,48 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+version: 2
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  build:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: cimg/node:current-browsers
+    working_directory: ~/solid-kitchen
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+      - run: npm i
+      # Add Tests
+      - run: npm run build
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+  deploy:
+    docker:
+      - image: cimg/node:current-browsers
+    working_directory: ~/solid-budget
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "91:33:c2:6a:f1:f6:fd:18:c3:95:72:b4:67:5e:6d:9e"
+      - run: npm i
+      - run: npm i surge
+      - run: npm run build
+      - run: rm -rf .git
+      - run: echo "https://kitchen.wkgreen.dev" > ./build/CNAME
+      - run: cp -r .circleci build
+      - run: cd build && git init
+      - run: cd build && git remote add origin git@github.com:kjintroverted/solid-kitchen.git
+      - run: cd build && git checkout -b gh-pages
+      - run: cd build && git add .
+      - run: cd build && git config user.email "wkgreen13@gmail.com"
+      - run: cd build && git config user.name "CircleCI"
+      - run: cd build && git commit -m "CI Deploy"
+      - run: cd build && git push -uf origin gh-pages
+
 workflows:
-  say-hello-workflow:
+  version: 2
+  build-deploy:
     jobs:
-      - say-hello
+      - build:
+          filters:
+            branches:
+              ignore: gh-pages
+      - deploy:
+          filters:
+            branches:
+              only: master
