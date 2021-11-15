@@ -53,11 +53,11 @@ function RecipeForm({ onSubmit }) {
 
   async function saveRecipe() {
     setSaving(true);
-    debugger;
     let url = await saveThing(thing)
-    console.log('saved recipe');
+    console.log('saved recipe:', url);
     let newThing = await loadThing(url, recipeStruct);
-    onSubmit({ ...recipe, thing: newThing });
+    console.log('saved recipe:', newThing);
+    onSubmit(newThing);
   }
 
   useEffect(() => {
