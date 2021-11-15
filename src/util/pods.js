@@ -12,8 +12,8 @@ import {
 } from "@inrupt/solid-client";
 import { fetch, getDefaultSession, login, logout } from '@inrupt/solid-client-authn-browser'
 import { nanoid } from "nanoid";
+import React from "react";
 
-let updateQ = [];
 let appDataSetURL;
 
 export async function appLogin() {
@@ -66,16 +66,6 @@ export async function loadThing(url, struct) {
   return { ...datum, thing };
 }
 
-export function addToUpdateQueue(thing) {
-  let i = updateQ.findIndex(e => thing.url === e.url);
-  if (i < 0) updateQ = [...updateQ, thing];
-  else updateQ.splice(i, 1, thing)
-}
-
-export function unsaved() {
-  return !!updateQ.length;
-}
-
 export function newThing(name) {
   let id = `${ name }-${ nanoid() }`;
   return createThing({ name: id })
@@ -88,7 +78,6 @@ export function setAttr(thing, attribute, value) {
 
 export function updateAttr(thing, attribute, value) {
   thing = attribute.set(thing, attribute.predicate, value)
-  addToUpdateQueue(thing)
   return thing;
 }
 
@@ -108,12 +97,6 @@ export async function deleteThing(thing) {
   dataset = removeThing(dataset, thing);
   await saveSolidDatasetAt(dataURL, dataset, { fetch })
   return dataset;
-}
-
-export async function save() {
-  let res = await Promise.all(updateQ.map(saveThing));
-  console.log("Saved:", res);
-  return true;
 }
 
 export function getDomain(url) {
@@ -150,3 +133,23 @@ export function stringifyAndSet(thing, url, data) {
   let value = JSON.stringify(data);
   return setStringNoLocale(thing, url, value);
 }
+
+
+// SAVE STATE ===========================
+
+export function addToUpdateQueue(q, thing) {
+  let i = q.findIndex(e => thing.url === e.url);
+  return (i < 0) ? [...q, thing] :
+    [...q.slice(0, i), thing, ...q.slice(i + 1)]
+}
+
+export async function save(q) {
+  let res = await Promise.all(q.map(saveThing));
+  console.log("Saved:", res);
+  return true;
+}
+
+export const SaveState = React.createContext({
+  queue: [],
+  updateQueue: () => { }
+})

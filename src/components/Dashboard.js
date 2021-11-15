@@ -1,9 +1,9 @@
-import { HeaderBar, Spacer } from "./styled";
-import { IconButton } from '@material-ui/core'
+import { HeaderBar, SaveButton, Spacer } from "./styled";
+import { Button, IconButton } from '@material-ui/core'
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
-import { loadThing, deleteThing, nameFilter } from "../util/pods";
+import { loadThing, deleteThing, nameFilter, SaveState } from "../util/pods";
 import { Recipes } from "./recipes";
 import styled from "styled-components";
 
@@ -11,6 +11,7 @@ function Dashboard({ name, data }) {
 
 
   const [recipes, setRecipes] = useState()
+  const { queue, saveFromQ } = useContext(SaveState);
 
   useEffect(() => {
     if (!data) return
@@ -55,6 +56,17 @@ function Dashboard({ name, data }) {
       <Main>
         <Recipes deleteRecipe={ deleteRecipe } recipes={ recipes } addRecipe={ addRecipe } />
       </Main>
+      {
+        !!queue.length &&
+        <SaveButton>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={ saveFromQ }>
+            Save
+          </Button>
+        </SaveButton>
+      }
     </Layout>
   )
 }

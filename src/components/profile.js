@@ -1,15 +1,16 @@
 import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileStruct } from "../models";
-import { updateAttr } from "../util/pods";
-import { BigBar, BigIconHeader, Column, Spacer } from "./styled";
+import { addToUpdateQueue, SaveState, updateAttr } from "../util/pods";
+import { BigBar, BigIconHeader, Column, SaveButton, Spacer } from "./styled";
 
 
-function Profile({ profile, onChange, submit }) {
+function Profile({ profile, onChange }) {
 
   const [edit, toggleEdit] = useState(false);
   const [thing, setThing] = useState();
+  const { queue, saveFromQ, updateQueue } = useContext(SaveState)
 
   useEffect(() => {
     if (!profile) return
@@ -19,7 +20,9 @@ function Profile({ profile, onChange, submit }) {
   function update(field) {
     return ({ target }) => {
       onChange({ ...profile, [field]: target.value })
-      setThing(updateAttr(thing, profileStruct[field], target.value))
+      let t = updateAttr(thing, profileStruct[field], target.value);
+      updateQueue(addToUpdateQueue(queue, t))
+      setThing(t)
     }
   }
 
@@ -27,7 +30,9 @@ function Profile({ profile, onChange, submit }) {
     let [firstName = '', lastName = ''] = target.value.split(' ');
     onChange({ ...profile, firstName, lastName });
     let t = updateAttr(thing, profileStruct['firstName'], firstName)
-    setThing(updateAttr(t, profileStruct['lastName'], lastName))
+    t = updateAttr(t, profileStruct['lastName'], lastName)
+    setThing(t)
+    updateQueue(addToUpdateQueue(queue, t))
   }
 
   if (!profile) return <></>
@@ -87,7 +92,17 @@ function Profile({ profile, onChange, submit }) {
             </InputAdornment>
           }
           onChange={ update("email") } />
-        <Button onClick={ submit } color="primary">update</Button>
+        {
+          !!queue.length &&
+          <SaveButton>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={ saveFromQ }>
+              Save
+            </Button>
+          </SaveButton>
+        }
       </Column>
     </>)
 }

@@ -1,17 +1,18 @@
 import { Divider, IconButton } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { recipeStruct } from "../../models/recipe";
-import { save, unsaved, updateAttr } from "../../util/pods";
-import { Row, SaveButton, Spacer, Subtitle, Title } from "../styled";
+import { addToUpdateQueue, SaveState, updateAttr } from "../../util/pods";
+import { Row, Spacer, Subtitle, Title } from "../styled";
 import ChipField from "./ChipField";
 
 function RecipeCard({ recipes, deleteRecipe }) {
 
   const { recipe_id } = useParams();
   const [recipe, setRecipe] = useState({});
+  const { queue, updateQueue } = useContext(SaveState);
 
   useEffect(() => {
     if (!recipes || !recipes.length) return
@@ -21,14 +22,15 @@ function RecipeCard({ recipes, deleteRecipe }) {
   function addTag(tag) {
     let tags = recipe.tags ? [...recipe.tags, tag] : [tag];
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    updateQueue(addToUpdateQueue(queue, thing))
     setRecipe({ ...recipe, thing, tags })
   }
 
   function removeTag(tag) {
-    debugger;
     let i = recipe.tags.indexOf(tag);
     let tags = [...recipe.tags.slice(0, i), ...recipe.tags.slice(i + 1)]
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    updateQueue(addToUpdateQueue(queue, thing))
     setRecipe({ ...recipe, thing, tags })
   }
 
@@ -60,14 +62,6 @@ function RecipeCard({ recipes, deleteRecipe }) {
         </ol>
       </section>
       <ChipField data={ recipe.tags || [] } onSubmit={ addTag } onDelete={ removeTag } />
-      {
-        unsaved() &&
-        <SaveButton>
-          <IconButton variant="contained" color="secondary" onClick={ save }>
-            <span className="material-icons">save</span>
-          </IconButton>
-        </SaveButton>
-      }
     </Container>
   )
 }

@@ -153,7 +153,7 @@ export const Divider = styled.hr`
 
 export const SaveButton = styled.div`
   position: fixed;
-  bottom: 0px;
-  right: 0px;
+  bottom: 10px;
+  right: 10px;
   z-index: 1;
 `
