@@ -40,7 +40,6 @@ function Dashboard({ name, data }) {
 
   async function updateRecipe(recipe) {
     let index = recipes.findIndex(r => r.thing.url === recipe.thing.url)
-    debugger;
     setRecipes([
       ...recipes.slice(0, index),
       recipe,
