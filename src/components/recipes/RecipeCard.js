@@ -8,7 +8,7 @@ import { addToUpdateQueue, SaveState, updateAttr } from "../../util/pods";
 import { Row, Spacer, Subtitle, Title } from "../styled";
 import ChipField from "./ChipField";
 
-function RecipeCard({ recipes, deleteRecipe }) {
+function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   const { recipe_id } = useParams();
   const [recipe, setRecipe] = useState({});
@@ -23,7 +23,9 @@ function RecipeCard({ recipes, deleteRecipe }) {
     let tags = recipe.tags ? [...recipe.tags, tag] : [tag];
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
-    setRecipe({ ...recipe, thing, tags })
+    let r = { ...recipe, thing, tags };
+    setRecipe(r)
+    updateRecipe(r)
   }
 
   function removeTag(tag) {
@@ -31,7 +33,9 @@ function RecipeCard({ recipes, deleteRecipe }) {
     let tags = [...recipe.tags.slice(0, i), ...recipe.tags.slice(i + 1)]
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
-    setRecipe({ ...recipe, thing, tags })
+    let r = { ...recipe, thing, tags };
+    setRecipe(r)
+    updateRecipe(r)
   }
 
   if (!recipe.name) return <></>

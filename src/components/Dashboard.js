@@ -1,4 +1,4 @@
-import { HeaderBar, SaveButton, Spacer } from "./styled";
+import { HeaderBar, SaveButton, Spacer, THEME } from "./styled";
 import { Button, IconButton } from '@material-ui/core'
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -38,6 +38,17 @@ function Dashboard({ name, data }) {
     console.log('Deleted ' + recipe.name);
   }
 
+  async function updateRecipe(recipe) {
+    let index = recipes.findIndex(r => r.thing.url === recipe.thing.url)
+    debugger;
+    setRecipes([
+      ...recipes.slice(0, index),
+      recipe,
+      ...recipes.slice(index + 1)
+    ])
+    console.log('Updated ' + recipe.name);
+  }
+
   function addRecipe(recipe) {
     setRecipes([...recipes, recipe])
   }
@@ -54,7 +65,11 @@ function Dashboard({ name, data }) {
         </Link>
       </HeaderBar>
       <Main>
-        <Recipes deleteRecipe={ deleteRecipe } recipes={ recipes } addRecipe={ addRecipe } />
+        <Recipes
+          deleteRecipe={ deleteRecipe }
+          recipes={ recipes }
+          updateRecipe={ updateRecipe }
+          addRecipe={ addRecipe } />
       </Main>
       {
         !!queue.length &&
@@ -74,6 +89,7 @@ function Dashboard({ name, data }) {
 export default Dashboard;
 
 const Layout = styled.div`
+  background: ${ THEME.light };
   display: grid;
   grid-template-rows: 5.2em 1fr;
   grid-template-areas: 

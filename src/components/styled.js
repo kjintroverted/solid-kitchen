@@ -53,6 +53,7 @@ export const Spacer = styled.span`
 `
 
 export const Main = styled.div`
+  height: 100%;
   background: ${ THEME.light };
   color: ${ THEME.dark };
 `
