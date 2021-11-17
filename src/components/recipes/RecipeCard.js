@@ -1,4 +1,4 @@
-import { Divider, IconButton } from "@material-ui/core";
+import { Button, Divider, IconButton, TextField } from "@material-ui/core";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -8,11 +8,15 @@ import { addToUpdateQueue, SaveState, updateAttr } from "../../util/pods";
 import { Row, Spacer, Subtitle, Title } from "../styled";
 import ChipField from "./ChipField";
 
-function RecipeCard({ recipes, deleteRecipe }) {
+function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   const { recipe_id } = useParams();
-  const [recipe, setRecipe] = useState({});
   const { queue, updateQueue } = useContext(SaveState);
+
+  const [recipe, setRecipe] = useState({});
+  const [editField, setEditField] = useState({})
+  const [addIngredient, setAddIngredient] = useState(false);
+  const [newIngredient, updateNewIngredient] = useState({});
 
   useEffect(() => {
     if (!recipes || !recipes.length) return
@@ -23,7 +27,9 @@ function RecipeCard({ recipes, deleteRecipe }) {
     let tags = recipe.tags ? [...recipe.tags, tag] : [tag];
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
-    setRecipe({ ...recipe, thing, tags })
+    let r = { ...recipe, thing, tags };
+    setRecipe(r)
+    updateRecipe(r)
   }
 
   function removeTag(tag) {
@@ -31,7 +37,48 @@ function RecipeCard({ recipes, deleteRecipe }) {
     let tags = [...recipe.tags.slice(0, i), ...recipe.tags.slice(i + 1)]
     let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
-    setRecipe({ ...recipe, thing, tags })
+    let r = { ...recipe, thing, tags };
+    setRecipe(r)
+    updateRecipe(r)
+  }
+
+  function handleChange(field, index, innerField) {
+    return e => {
+      let arr = recipe[field];
+      let data = innerField ? { ...arr[index], [innerField]: e.target.value } : e.target.value;
+      arr = [...arr.slice(0, index), data, ...arr.slice(index + 1)];
+      let updatedRecipe = { ...recipe, [field]: arr }
+      debugger
+      let thing = updateAttr(recipe.thing, recipeStruct[field], arr);
+      updateQueue(addToUpdateQueue(queue, thing))
+      setRecipe(updatedRecipe)
+      updateRecipe(updatedRecipe)
+    }
+  }
+
+  function newIngredientChange(field) {
+    return e => {
+      updateNewIngredient({ ...newIngredient, [field]: e.target.value })
+    }
+  }
+
+  function addNewIngredient() {
+    let ingredients = recipe.ingredients ? [...recipe.ingredients, newIngredient] : [newIngredient];
+    let thing = updateAttr(recipe.thing, recipeStruct.ingredients, ingredients);
+    updateQueue(addToUpdateQueue(queue, thing))
+    let r = { ...recipe, thing, ingredients };
+    debugger
+    setRecipe(r)
+    updateRecipe(r)
+    setAddIngredient(false)
+  }
+
+  function onEnter(f) {
+    return e => {
+      if (e.key === 'Enter') {
+        f();
+      }
+    }
   }
 
   if (!recipe.name) return <></>
@@ -50,14 +97,69 @@ function RecipeCard({ recipes, deleteRecipe }) {
       <Divider />
       <Row wrap='wrap'>
         {
-          recipe.ingredients.map(i => <Item key={ i.item }>{ i.qty } <b>{ i.item }</b></Item>)
+          recipe.ingredients.map((ing, i) => {
+            return (editField.value === 'ing' && editField.index === i) ?
+              <Item>
+                <TextField
+                  color="primary"
+                  style={ { width: '100px' } }
+                  value={ ing.qty }
+                  onChange={ handleChange('ingredients', i, 'qty') }
+                  onKeyPress={ onEnter(() => setEditField({})) } />
+                <TextField
+                  color="primary"
+                  style={ { flex: '1' } }
+                  value={ ing.item }
+                  onChange={ handleChange('ingredients', i, 'item') }
+                  onKeyPress={ onEnter(() => setEditField({})) } />
+              </Item>
+              : <Item
+                onDoubleClick={ () => setEditField({ value: 'ing', index: i }) }
+                key={ ing.item }>
+                { ing.qty } <b>{ ing.item }</b>
+              </Item>
+          })
+        }
+        {
+          !addIngredient ?
+            <Button style={ { width: '100%' } } onClick={ () => setAddIngredient(true) }>
+              <span className="material-icons">add</span>
+            </Button>
+            :
+            <Item>
+              <TextField
+                color="primary"
+                style={ { width: '100px' } }
+                placeholder="1 tbsp"
+                onChange={ newIngredientChange('qty') }
+                onKeyPress={ onEnter(addNewIngredient) } />
+              <TextField
+                color="primary"
+                style={ { flex: '1' } }
+                placeholder="Love"
+                onChange={ newIngredientChange('item') }
+                onKeyPress={ onEnter(addNewIngredient) } />
+            </Item>
         }
       </Row>
       <section>
         <Subtitle>Instructions</Subtitle>
         <ol>
           {
-            recipe.steps.map(s => <li key={ s }>{ s }</li>)
+            recipe.steps.map((s, i) => {
+              return (editField.value === 'steps' && editField.index === i) ?
+                <li>
+                  <TextField
+                    color="primary"
+                    style={ { width: '100%' } }
+                    value={ s }
+                    onChange={ handleChange('steps', i) }
+                    onKeyPress={ onEnter(() => setEditField({})) } />
+                </li>
+                : <li key={ s } onDoubleClick={ () => setEditField({ value: 'steps', index: i }) } >
+                  { s }
+                </li>
+            })
           }
         </ol>
       </section>
@@ -76,6 +178,7 @@ const Container = styled.div`
 `
 
 const Item = styled.span`
+  display: flex;
   border-bottom: 1px solid lightgray;
   min-width: 48%;
 `
