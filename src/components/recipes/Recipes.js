@@ -6,7 +6,7 @@ import { Route } from "react-router";
 import RecipePreview from "./RecipePreview";
 import RecipeCard from "./RecipeCard";
 
-function Recipes({ recipes, deleteRecipe, addRecipe }) {
+function Recipes({ recipes, deleteRecipe, addRecipe, updateRecipe }) {
 
   const [add, setAdd] = useState(false);
   const [filter, updateFilter] = useState("");
@@ -46,7 +46,7 @@ function Recipes({ recipes, deleteRecipe, addRecipe }) {
         </Pane>
       </Route>
       <Route path="/:recipe_id">
-        <RecipeCard recipes={ recipes } deleteRecipe={ deleteRecipe } />
+        <RecipeCard recipes={ recipes } deleteRecipe={ deleteRecipe } updateRecipe={ updateRecipe } />
       </Route>
     </>
   )
