@@ -1,4 +1,4 @@
-import { Divider, IconButton, TextField } from "@material-ui/core";
+import { Button, Divider, IconButton, TextField } from "@material-ui/core";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -11,9 +11,12 @@ import ChipField from "./ChipField";
 function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   const { recipe_id } = useParams();
+  const { queue, updateQueue } = useContext(SaveState);
+
   const [recipe, setRecipe] = useState({});
   const [editField, setEditField] = useState({})
-  const { queue, updateQueue } = useContext(SaveState);
+  const [addIngredient, setAddIngredient] = useState(false);
+  const [newIngredient, updateNewIngredient] = useState({});
 
   useEffect(() => {
     if (!recipes || !recipes.length) return
@@ -49,14 +52,31 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
       let thing = updateAttr(recipe.thing, recipeStruct[field], arr);
       updateQueue(addToUpdateQueue(queue, thing))
       setRecipe(updatedRecipe)
+      updateRecipe(updatedRecipe)
     }
+  }
+
+  function newIngredientChange(field) {
+    return e => {
+      updateNewIngredient({ ...newIngredient, [field]: e.target.value })
+    }
+  }
+
+  function addNewIngredient() {
+    let ingredients = recipe.ingredients ? [...recipe.ingredients, newIngredient] : [newIngredient];
+    let thing = updateAttr(recipe.thing, recipeStruct.ingredients, ingredients);
+    updateQueue(addToUpdateQueue(queue, thing))
+    let r = { ...recipe, thing, ingredients };
+    debugger
+    setRecipe(r)
+    updateRecipe(r)
+    setAddIngredient(false)
   }
 
   function onEnter(f) {
     return e => {
       if (e.key === 'Enter') {
         f();
-        updateRecipe(recipe)
       }
     }
   }
@@ -99,6 +119,27 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
                 { ing.qty } <b>{ ing.item }</b>
               </Item>
           })
+        }
+        {
+          !addIngredient ?
+            <Button style={ { width: '100%' } } onClick={ () => setAddIngredient(true) }>
+              <span className="material-icons">add</span>
+            </Button>
+            :
+            <Item>
+              <TextField
+                color="primary"
+                style={ { width: '100px' } }
+                placeholder="1 tbsp"
+                onChange={ newIngredientChange('qty') }
+                onKeyPress={ onEnter(addNewIngredient) } />
+              <TextField
+                color="primary"
+                style={ { flex: '1' } }
+                placeholder="Love"
+                onChange={ newIngredientChange('item') }
+                onKeyPress={ onEnter(addNewIngredient) } />
+            </Item>
         }
       </Row>
       <section>
