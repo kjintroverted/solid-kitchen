@@ -1,4 +1,4 @@
-import { Divider, IconButton } from "@material-ui/core";
+import { Divider, IconButton, TextField } from "@material-ui/core";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   const { recipe_id } = useParams();
   const [recipe, setRecipe] = useState({});
+  const [editField, setEditField] = useState({})
   const { queue, updateQueue } = useContext(SaveState);
 
   useEffect(() => {
@@ -38,6 +39,27 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
     updateRecipe(r)
   }
 
+  function handleChange(field, index, innerField) {
+    return e => {
+      let arr = recipe[field];
+      let data = innerField ? { ...arr[index], [field]: e.target.value } : e.target.value;
+      arr = [...arr.slice(0, index), data, ...arr.slice(index + 1)];
+      let updatedRecipe = { ...recipe, [field]: arr }
+      let thing = updateAttr(recipe.thing, recipeStruct[field], arr);
+      updateQueue(addToUpdateQueue(queue, thing))
+      setRecipe(updatedRecipe)
+    }
+  }
+
+  function onEnter(f) {
+    return e => {
+      if (e.key === 'Enter') {
+        f();
+        updateRecipe(recipe)
+      }
+    }
+  }
+
   if (!recipe.name) return <></>
 
   return (
@@ -61,7 +83,20 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
         <Subtitle>Instructions</Subtitle>
         <ol>
           {
-            recipe.steps.map(s => <li key={ s }>{ s }</li>)
+            recipe.steps.map((s, i) => {
+              return (editField.value === 'steps' && editField.index === i) ?
+                <li>
+                  <TextField
+                    color="primary"
+                    style={ { width: '100%' } }
+                    value={ s }
+                    onChange={ handleChange('steps', i) }
+                    onKeyPress={ onEnter(() => setEditField({})) } />
+                </li>
+                : <li key={ s } onDoubleClick={ () => setEditField({ value: 'steps', index: i }) } >
+                  { s }
+                </li>
+            })
           }
         </ol>
       </section>
