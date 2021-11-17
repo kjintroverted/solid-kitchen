@@ -42,9 +42,10 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
   function handleChange(field, index, innerField) {
     return e => {
       let arr = recipe[field];
-      let data = innerField ? { ...arr[index], [field]: e.target.value } : e.target.value;
+      let data = innerField ? { ...arr[index], [innerField]: e.target.value } : e.target.value;
       arr = [...arr.slice(0, index), data, ...arr.slice(index + 1)];
       let updatedRecipe = { ...recipe, [field]: arr }
+      debugger
       let thing = updateAttr(recipe.thing, recipeStruct[field], arr);
       updateQueue(addToUpdateQueue(queue, thing))
       setRecipe(updatedRecipe)
@@ -76,7 +77,28 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
       <Divider />
       <Row wrap='wrap'>
         {
-          recipe.ingredients.map(i => <Item key={ i.item }>{ i.qty } <b>{ i.item }</b></Item>)
+          recipe.ingredients.map((ing, i) => {
+            return (editField.value === 'ing' && editField.index === i) ?
+              <Item>
+                <TextField
+                  color="primary"
+                  style={ { width: '100px' } }
+                  value={ ing.qty }
+                  onChange={ handleChange('ingredients', i, 'qty') }
+                  onKeyPress={ onEnter(() => setEditField({})) } />
+                <TextField
+                  color="primary"
+                  style={ { flex: '1' } }
+                  value={ ing.item }
+                  onChange={ handleChange('ingredients', i, 'item') }
+                  onKeyPress={ onEnter(() => setEditField({})) } />
+              </Item>
+              : <Item
+                onDoubleClick={ () => setEditField({ value: 'ing', index: i }) }
+                key={ ing.item }>
+                { ing.qty } <b>{ ing.item }</b>
+              </Item>
+          })
         }
       </Row>
       <section>
@@ -115,6 +137,7 @@ const Container = styled.div`
 `
 
 const Item = styled.span`
+  display: flex;
   border-bottom: 1px solid lightgray;
   min-width: 48%;
 `
