@@ -157,3 +157,28 @@ export const SaveButton = styled.div`
   right: 10px;
   z-index: 1;
 `
+
+export const SideBar = styled.div`
+  position: fixed;
+  z-index: 100;
+  height: 100vh;
+  top: 0px;
+  ${ props => props.side }: 0px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: rgb(91 83 72 / 10%) 2px 2px 10px;
+  transition: ${ props => props.side } ease-out .3s;
+  &.hidden {
+    ${ props => props.side }: -350px;
+  }
+`
+
+export const SimpleBucket = styled.h2`
+  flex: 1;
+  justify-content: space-around;
+  border: 5px dashed ${ THEME.dark };
+  text-align: center;
+  margin: 3px;
+`

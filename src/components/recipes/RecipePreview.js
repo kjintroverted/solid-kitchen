@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { resourceName } from "../../util/pods";
 import { ActionBar, Card, CardContent, Divider, Label, Row, Title } from "../styled";
 
-function RecipePreview({ recipe }) {
+function RecipePreview({ recipe, onDrag, onDragEnd }) {
   return (
-    <Card className="click">
+    <Card className="click"
+      draggable="true"
+      onDrag={ () => onDrag(recipe) }
+      onDragEnd={ onDragEnd }
+    >
       <Title>{ recipe.name }</Title>
       <Row>
         {
