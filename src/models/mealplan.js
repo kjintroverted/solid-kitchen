@@ -2,37 +2,37 @@ import { FOAF } from "@inrupt/vocab-common-rdf";
 import { getAndParse, stringifyAndSet } from "../util/pods";
 
 const mealplanStruct = {
-  monday: {
+  mon: {
     predicate: FOAF.mbox,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  tuesday: {
+  tue: {
     predicate: FOAF.topic,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  wednesday: {
+  wed: {
     predicate: FOAF.weblog,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  thursday: {
+  thu: {
     predicate: FOAF.theme,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  friday: {
+  fri: {
     predicate: FOAF.focus,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  saturday: {
+  sat: {
     predicate: FOAF.status,
     parse: stringifyAndSet,
     set: getAndParse
   },
-  sunday: {
+  sun: {
     predicate: FOAF.surname,
     parse: stringifyAndSet,
     set: getAndParse
