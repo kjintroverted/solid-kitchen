@@ -3,11 +3,17 @@ import { Link } from "react-router-dom";
 import { resourceName } from "../../util/pods";
 import { ActionBar, Card, CardContent, Divider, Label, Row, Title } from "../styled";
 
-function RecipePreview({ recipe, onDrag, onDragEnd }) {
+function RecipePreview({ recipe, onDragEnd, onDrag }) {
+
+  function handleDrag(e) {
+    e.dataTransfer.setData("json", JSON.stringify(recipe));
+    onDrag(true)
+  }
+
   return (
     <Card className="click"
       draggable="true"
-      onDrag={ () => onDrag(recipe) }
+      onDragStart={ handleDrag }
       onDragEnd={ onDragEnd }
     >
       <Title>{ recipe.name }</Title>

@@ -181,4 +181,8 @@ export const SimpleBucket = styled.h2`
   border: 5px dashed ${ THEME.dark };
   text-align: center;
   margin: 3px;
+  opacity: .5;
+  &.match {
+    background-color: ${ THEME.primary };
+  }
 `
