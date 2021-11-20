@@ -7,7 +7,7 @@ function RecipePreview({ recipe, onDragEnd, onDrag }) {
 
   function handleDrag(e) {
     e.dataTransfer.setData("json", JSON.stringify(recipe));
-    onDrag(true)
+    onDrag()
   }
 
   return (
