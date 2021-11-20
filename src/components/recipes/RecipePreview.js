@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { resourceName } from "../../util/pods";
 import { ActionBar, Card, CardContent, Divider, Label, Row, Title } from "../styled";
 
-function RecipePreview({ recipe, onDragEnd, onDrag }) {
+function RecipePreview({ recipe, onDragEnd, onDrag = () => { } }) {
 
   function handleDrag(e) {
     e.dataTransfer.setData("json", JSON.stringify(recipe));
