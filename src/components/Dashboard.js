@@ -68,6 +68,7 @@ function Dashboard({ name, data }) {
     let dayPlan = mealplan[day];
     if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) return;
     setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe] })
+    console.log(`Make ${ recipe.name } on ${ day }`)
   }
 
   return (

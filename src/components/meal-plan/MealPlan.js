@@ -23,7 +23,7 @@ function MealPlan({ plan }) {
             </Header>
             <Row wrap="wrap">
               {
-                plan[day].map(r => <RecipePreview recipe={ r } />)
+                plan[day].map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
               }
             </Row>
           </div>

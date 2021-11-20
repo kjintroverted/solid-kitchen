@@ -20,7 +20,6 @@ function MealPlanBuckets({ visible, planRecipe }) {
   function handleDrop(day) {
     return e => {
       let r = JSON.parse(e.dataTransfer.getData("json"));
-      console.log(`Make ${ r.name } on ${ day }`)
       planRecipe(r, day)
       setHover("")
     }
