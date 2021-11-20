@@ -1,17 +1,19 @@
 import { HeaderBar, SaveButton, Spacer, THEME } from "./styled";
 import { Button, IconButton } from '@material-ui/core'
-import { Link } from "react-router-dom";
+import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
 import { loadThing, deleteThing, nameFilter, SaveState } from "../util/pods";
 import { Recipes } from "./recipes";
 import styled from "styled-components";
+import MealPlan from "./meal-plan/MealPlan";
 
 function Dashboard({ name, data }) {
 
 
   const [recipes, setRecipes] = useState()
   const { queue, saveFromQ } = useContext(SaveState);
+  let location = useLocation()
 
   useEffect(() => {
     if (!data) return
@@ -57,6 +59,11 @@ function Dashboard({ name, data }) {
       <HeaderBar>
         <h2>{ name ? `${ name }'s` : "My" } Kitchen</h2>
         <Spacer />
+        <Link to={ location.pathname === "/" ? "/meal-plan" : "/" }>
+          <IconButton color="inherit">
+            <span className="material-icons">{ location.pathname === "/" ? "date_range" : "event_note" }</span>
+          </IconButton>
+        </Link>
         <Link to="/profile">
           <IconButton color="inherit">
             <span className="material-icons">person</span>
@@ -64,11 +71,18 @@ function Dashboard({ name, data }) {
         </Link>
       </HeaderBar>
       <Main>
-        <Recipes
-          deleteRecipe={ deleteRecipe }
-          recipes={ recipes }
-          updateRecipe={ updateRecipe }
-          addRecipe={ addRecipe } />
+        <Switch>
+          <Route path="/meal-plan">
+            <MealPlan />
+          </Route>
+          <Route path="/">
+            <Recipes
+              deleteRecipe={ deleteRecipe }
+              recipes={ recipes }
+              updateRecipe={ updateRecipe }
+              addRecipe={ addRecipe } />
+          </Route>
+        </Switch>
       </Main>
       {
         !!queue.length &&
@@ -81,7 +95,7 @@ function Dashboard({ name, data }) {
           </Button>
         </SaveButton>
       }
-    </Layout>
+    </Layout >
   )
 }
 
