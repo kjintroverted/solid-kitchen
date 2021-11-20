@@ -12,6 +12,15 @@ function Dashboard({ name, data }) {
 
 
   const [recipes, setRecipes] = useState()
+  const [mealplan, setMealPlan] = useState({
+    mon: [],
+    tue: [],
+    wed: [],
+    thu: [],
+    fri: [],
+    sat: [],
+    sun: []
+  })
   const { queue, saveFromQ } = useContext(SaveState);
   let location = useLocation()
 
@@ -19,6 +28,7 @@ function Dashboard({ name, data }) {
     if (!data) return
     loadRecipes(data)
       .then(setRecipes)
+
   }, [data])
 
   async function loadRecipes(things) {
@@ -54,6 +64,12 @@ function Dashboard({ name, data }) {
     setRecipes([...recipes, recipe])
   }
 
+  function planRecipe(recipe, day) {
+    let dayPlan = mealplan[day];
+    if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) return;
+    setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe] })
+  }
+
   return (
     <Layout>
       <HeaderBar>
@@ -73,14 +89,15 @@ function Dashboard({ name, data }) {
       <Main>
         <Switch>
           <Route path="/meal-plan">
-            <MealPlan />
+            <MealPlan plan={ mealplan } />
           </Route>
           <Route path="/">
             <Recipes
               deleteRecipe={ deleteRecipe }
               recipes={ recipes }
               updateRecipe={ updateRecipe }
-              addRecipe={ addRecipe } />
+              addRecipe={ addRecipe }
+              planRecipe={ planRecipe } />
           </Route>
         </Switch>
       </Main>

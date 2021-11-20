@@ -7,7 +7,12 @@ import RecipePreview from "./RecipePreview";
 import RecipeCard from "./RecipeCard";
 import MealPlanBuckets from "../meal-plan/MealPlanBuckets";
 
-function Recipes({ recipes, deleteRecipe, addRecipe, updateRecipe }) {
+function Recipes({
+  recipes,
+  deleteRecipe,
+  addRecipe,
+  updateRecipe,
+  planRecipe }) {
 
   const [add, setAdd] = useState(false);
   const [filter, updateFilter] = useState("");
@@ -50,7 +55,7 @@ function Recipes({ recipes, deleteRecipe, addRecipe, updateRecipe }) {
       <Route path="/:recipe_id">
         <RecipeCard recipes={ recipes } deleteRecipe={ deleteRecipe } updateRecipe={ updateRecipe } />
       </Route>
-      <MealPlanBuckets visible={ planning } />
+      <MealPlanBuckets visible={ planning } planRecipe={ planRecipe } />
     </>
   )
 }

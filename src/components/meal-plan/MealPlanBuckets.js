@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SideBar, SimpleBucket } from "../styled";
 
-function MealPlanBuckets({ visible }) {
+function MealPlanBuckets({ visible, planRecipe }) {
 
   const [hover, setHover] = useState("");
 
@@ -21,6 +21,7 @@ function MealPlanBuckets({ visible }) {
     return e => {
       let r = JSON.parse(e.dataTransfer.getData("json"));
       console.log(`Make ${ r.name } on ${ day }`)
+      planRecipe(r, day)
       setHover("")
     }
   }
@@ -28,59 +29,59 @@ function MealPlanBuckets({ visible }) {
   return (
     <SideBar side="right" className={ visible ? "" : "hidden" }>
       <SimpleBucket
-        className={ hover === "monday" ? "match" : "" }
-        onDragEnter={ handleDragOver("monday") }
-        onDragOver={ handleDragOver("monday") }
+        className={ hover === "mon" ? "match" : "" }
+        onDragEnter={ handleDragOver("mon") }
+        onDragOver={ handleDragOver("mon") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("monday") }>
+        onDrop={ handleDrop("mon") }>
         monday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "tuesday" ? "match" : "" }
-        onDragEnter={ handleDragOver("tuesday") }
-        onDragOver={ handleDragOver("tuesday") }
+        className={ hover === "tue" ? "match" : "" }
+        onDragEnter={ handleDragOver("tue") }
+        onDragOver={ handleDragOver("tue") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("tuesday") }>
+        onDrop={ handleDrop("tue") }>
         tuesday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "wednesday" ? "match" : "" }
-        onDragEnter={ handleDragOver("wednesday") }
-        onDragOver={ handleDragOver("wednesday") }
+        className={ hover === "wed" ? "match" : "" }
+        onDragEnter={ handleDragOver("wed") }
+        onDragOver={ handleDragOver("wed") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("wednesday") }>
+        onDrop={ handleDrop("wed") }>
         wednesday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "thursday" ? "match" : "" }
-        onDragEnter={ handleDragOver("thursday") }
-        onDragOver={ handleDragOver("thursday") }
+        className={ hover === "thu" ? "match" : "" }
+        onDragEnter={ handleDragOver("thu") }
+        onDragOver={ handleDragOver("thu") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("thursday") }>
+        onDrop={ handleDrop("thu") }>
         thursday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "friday" ? "match" : "" }
-        onDragEnter={ handleDragOver("friday") }
-        onDragOver={ handleDragOver("friday") }
+        className={ hover === "fri" ? "match" : "" }
+        onDragEnter={ handleDragOver("fri") }
+        onDragOver={ handleDragOver("fri") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("friday") }>
+        onDrop={ handleDrop("fri") }>
         friday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "saturday" ? "match" : "" }
-        onDragEnter={ handleDragOver("saturday") }
-        onDragOver={ handleDragOver("saturday") }
+        className={ hover === "sat" ? "match" : "" }
+        onDragEnter={ handleDragOver("sat") }
+        onDragOver={ handleDragOver("sat") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("saturday") }>
+        onDrop={ handleDrop("sat") }>
         saturday
       </SimpleBucket>
       <SimpleBucket
-        className={ hover === "sunday" ? "match" : "" }
-        onDragEnter={ handleDragOver("sunday") }
-        onDragOver={ handleDragOver("sunday") }
+        className={ hover === "sun" ? "match" : "" }
+        onDragEnter={ handleDragOver("sun") }
+        onDragOver={ handleDragOver("sun") }
         onDragLeave={ handleDragLeave }
-        onDrop={ handleDrop("sunday") }>
+        onDrop={ handleDrop("sun") }>
         sunday
       </SimpleBucket>
     </SideBar >
