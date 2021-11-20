@@ -13,6 +13,8 @@ function MealPlan({ plan }) {
     "sun"
   ]
 
+  // TODO: Clear all
+
   return (
     <Column>
       {

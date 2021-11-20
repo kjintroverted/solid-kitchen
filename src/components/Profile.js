@@ -2,7 +2,7 @@ import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileStruct } from "../models";
-import { addToUpdateQueue, SaveState, updateAttr } from "../util/pods";
+import { addToUpdateQueue, SaveState, setAttr } from "../util/pods";
 import { BigBar, BigIconHeader, Column, SaveButton, Spacer } from "./styled";
 
 
@@ -20,7 +20,7 @@ function Profile({ profile, onChange }) {
   function update(field) {
     return ({ target }) => {
       onChange({ ...profile, [field]: target.value })
-      let t = updateAttr(thing, profileStruct[field], target.value);
+      let t = setAttr(thing, profileStruct[field], target.value);
       updateQueue(addToUpdateQueue(queue, t))
       setThing(t)
     }
@@ -29,8 +29,8 @@ function Profile({ profile, onChange }) {
   function updateName({ target }) {
     let [firstName = '', lastName = ''] = target.value.split(' ');
     onChange({ ...profile, firstName, lastName });
-    let t = updateAttr(thing, profileStruct['firstName'], firstName)
-    t = updateAttr(t, profileStruct['lastName'], lastName)
+    let t = setAttr(thing, profileStruct['firstName'], firstName)
+    t = setAttr(t, profileStruct['lastName'], lastName)
     setThing(t)
     updateQueue(addToUpdateQueue(queue, t))
   }

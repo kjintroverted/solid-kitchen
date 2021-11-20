@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { recipeStruct } from "../../models/recipe";
-import { addToUpdateQueue, SaveState, updateAttr } from "../../util/pods";
+import { addToUpdateQueue, SaveState, setAttr } from "../../util/pods";
 import { Row, Spacer, Subtitle, Title } from "../styled";
 import ChipField from "./ChipField";
 
@@ -25,7 +25,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   function addTag(tag) {
     let tags = recipe.tags ? [...recipe.tags, tag] : [tag];
-    let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    let thing = setAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
     let r = { ...recipe, thing, tags };
     setRecipe(r)
@@ -35,7 +35,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
   function removeTag(tag) {
     let i = recipe.tags.indexOf(tag);
     let tags = [...recipe.tags.slice(0, i), ...recipe.tags.slice(i + 1)]
-    let thing = updateAttr(recipe.thing, recipeStruct.tags, tags);
+    let thing = setAttr(recipe.thing, recipeStruct.tags, tags);
     updateQueue(addToUpdateQueue(queue, thing))
     let r = { ...recipe, thing, tags };
     setRecipe(r)
@@ -49,7 +49,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
       arr = [...arr.slice(0, index), data, ...arr.slice(index + 1)];
       let updatedRecipe = { ...recipe, [field]: arr }
       debugger
-      let thing = updateAttr(recipe.thing, recipeStruct[field], arr);
+      let thing = setAttr(recipe.thing, recipeStruct[field], arr);
       updateQueue(addToUpdateQueue(queue, thing))
       setRecipe(updatedRecipe)
       updateRecipe(updatedRecipe)
@@ -64,7 +64,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
   function addNewIngredient() {
     let ingredients = recipe.ingredients ? [...recipe.ingredients, newIngredient] : [newIngredient];
-    let thing = updateAttr(recipe.thing, recipeStruct.ingredients, ingredients);
+    let thing = setAttr(recipe.thing, recipeStruct.ingredients, ingredients);
     updateQueue(addToUpdateQueue(queue, thing))
     let r = { ...recipe, thing, ingredients };
     debugger

@@ -4,38 +4,38 @@ import { getAndParse, stringifyAndSet } from "../util/pods";
 const mealplanStruct = {
   mon: {
     predicate: FOAF.mbox,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   tue: {
     predicate: FOAF.topic,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   wed: {
     predicate: FOAF.weblog,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   thu: {
     predicate: FOAF.theme,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   fri: {
     predicate: FOAF.focus,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   sat: {
     predicate: FOAF.status,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   },
   sun: {
     predicate: FOAF.surname,
-    parse: stringifyAndSet,
-    set: getAndParse
+    parse: getAndParse,
+    set: stringifyAndSet
   }
 }
 

@@ -3,10 +3,11 @@ import { Button, IconButton } from '@material-ui/core'
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
-import { loadThing, deleteThing, nameFilter, SaveState } from "../util/pods";
+import { loadThing, deleteThing, nameFilter, SaveState, initThing, setAttr, addToUpdateQueue } from "../util/pods";
 import { Recipes } from "./recipes";
 import styled from "styled-components";
 import MealPlan from "./meal-plan/MealPlan";
+import mealplanStruct from "../models/mealplan";
 
 function Dashboard({ name, data }) {
 
@@ -21,15 +22,34 @@ function Dashboard({ name, data }) {
     sat: [],
     sun: []
   })
-  const { queue, saveFromQ } = useContext(SaveState);
+  const { queue, updateQueue, saveFromQ } = useContext(SaveState);
   let location = useLocation()
 
   useEffect(() => {
     if (!data) return
     loadRecipes(data)
       .then(setRecipes)
-
   }, [data])
+
+  useEffect(() => {
+    if (!data) return
+    async function loadMealPlan(things) {
+      // GET MEAL PLAN DATA
+      let planThing = things.find(nameFilter('meal-plan'));
+      let plan;
+      if (planThing) {
+        // LOAD AND RETURN
+        plan = await loadThing(planThing.url, mealplanStruct);
+      } else {
+        // CREATE NEW AND RETURN
+        plan = await initThing('meal-plan', mealplan, mealplanStruct);
+      }
+      return plan;
+    }
+
+    loadMealPlan(data)
+      .then(setMealPlan)
+  }, [data, mealplan])
 
   async function loadRecipes(things) {
     // GET ALL RECIPE DATA
@@ -65,8 +85,11 @@ function Dashboard({ name, data }) {
   }
 
   function planRecipe(recipe, day) {
+    // TODO: Feedback
     let dayPlan = mealplan[day];
     if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) return;
+    let thing = setAttr(mealplan.thing, mealplanStruct[day], [...dayPlan, recipe]);
+    updateQueue(addToUpdateQueue(queue, thing))
     setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe] })
     console.log(`Make ${ recipe.name } on ${ day }`)
   }
