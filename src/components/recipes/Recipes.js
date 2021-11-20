@@ -52,7 +52,7 @@ function Recipes({
           }
         </Pane>
       </Route>
-      <Route path="/:recipe_id">
+      <Route path="/recipes/:recipe_id">
         <RecipeCard recipes={ recipes } deleteRecipe={ deleteRecipe } updateRecipe={ updateRecipe } />
       </Route>
       <MealPlanBuckets visible={ planning } planRecipe={ planRecipe } />

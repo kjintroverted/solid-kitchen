@@ -29,7 +29,7 @@ function RecipePreview({ recipe, onDragEnd, onDrag = () => { } }) {
         { recipe.ingredients.map(i => i.item).join(', ') }
       </CardContent>
       <ActionBar>
-        <Link to={ `/${ resourceName(recipe.thing.url) }` }>
+        <Link to={ `recipes/${ resourceName(recipe.thing.url) }` }>
           <Button variant="text" color="primary">View</Button>
         </Link>
       </ActionBar>

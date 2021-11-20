@@ -99,9 +99,9 @@ function Dashboard({ name, data }) {
       <HeaderBar>
         <h2>{ name ? `${ name }'s` : "My" } Kitchen</h2>
         <Spacer />
-        <Link to={ location.pathname === "/" ? "/meal-plan" : "/" }>
+        <Link to={ location.pathname === "/" ? "/recipes" : "/" }>
           <IconButton color="inherit">
-            <span className="material-icons">{ location.pathname === "/" ? "date_range" : "event_note" }</span>
+            <span className="material-icons">{ location.pathname === "/" ? "event_note" : "date_range" }</span>
           </IconButton>
         </Link>
         <Link to="/profile">
@@ -112,16 +112,16 @@ function Dashboard({ name, data }) {
       </HeaderBar>
       <Main>
         <Switch>
-          <Route path="/meal-plan">
-            <MealPlan plan={ mealplan } />
-          </Route>
-          <Route path="/">
+          <Route path="/recipes">
             <Recipes
               deleteRecipe={ deleteRecipe }
               recipes={ recipes }
               updateRecipe={ updateRecipe }
               addRecipe={ addRecipe }
               planRecipe={ planRecipe } />
+          </Route>
+          <Route path="/">
+            <MealPlan plan={ mealplan } />
           </Route>
         </Switch>
       </Main>
