@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import mealplanStruct from "../../models/mealplan";
 import { addToUpdateQueue, SaveState, setAllAttr } from "../../util/pods";
 import RecipePreview from "../recipes/RecipePreview";
@@ -46,6 +47,12 @@ function MealPlan({ plan, onChange }) {
             <Row wrap="wrap">
               {
                 plan[day].map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
+              }
+              {
+                !plan[day].length &&
+                <Link to="/recipes">
+                  <Button color="primary">Add recipes to plan...</Button>
+                </Link>
               }
             </Row>
           </div>

@@ -136,7 +136,7 @@ export const Title = styled.h2`
 `
 
 export const Header = styled.h1`
-  margin: .5em 0;
+  margin: .5em .5em;
   font-weight: 200;
   text-transform: uppercase;
 `
