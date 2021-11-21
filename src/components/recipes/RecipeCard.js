@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { recipeStruct } from "../../models/recipe";
-import { addToUpdateQueue, SaveState, setAttr } from "../../util/pods";
+import { addToUpdateQueue, SaveState, setAttr } from "solid-core";
 import { Row, Spacer, Subtitle, Title } from "../styled";
 import ChipField from "./ChipField";
 

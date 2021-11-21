@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import mealplanStruct from "../../models/mealplan";
-import { addToUpdateQueue, SaveState, setAllAttr } from "../../util/pods";
+import { addToUpdateQueue, SaveState, setAllAttr } from "solid-core";
 import RecipePreview from "../recipes/RecipePreview";
 import { Column, Row, Header } from "../styled";
 import ShoppingList from "./ShoppingList";
