@@ -1,14 +1,16 @@
 import { Button } from "@material-ui/core";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import mealplanStruct from "../../models/mealplan";
 import { addToUpdateQueue, SaveState, setAllAttr } from "../../util/pods";
 import RecipePreview from "../recipes/RecipePreview";
 import { Column, Row, Header } from "../styled";
+import ShoppingList from "./ShoppingList";
 
 function MealPlan({ plan, onChange }) {
 
   const { queue, updateQueue } = useContext(SaveState);
+  const [showList, setShowList] = useState(false);
 
   const days = [
     "mon",
@@ -58,7 +60,17 @@ function MealPlan({ plan, onChange }) {
           </div>
         ))
       }
-      <Button onClick={ clear }>Clear Plan</Button>
+      <Row justify="flex-end">
+        <Button onClick={ clear } color="secondary">Clear Plan</Button>
+        <Button
+          color="primary"
+          variant="contained"
+          style={ { alignSelf: 'flex-end' } }
+          onClick={ () => setShowList(true) }>
+          Shopping List
+        </Button>
+      </Row >
+      <ShoppingList open={ showList } onClose={ () => setShowList(false) } mealplan={ plan } />
     </Column >
   )
 }
