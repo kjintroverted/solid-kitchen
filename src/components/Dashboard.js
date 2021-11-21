@@ -34,6 +34,15 @@ function Dashboard({ name, data }) {
   useEffect(() => {
     if (!data) return
     async function loadMealPlan(things) {
+      let emptyPlan = {
+        mon: [],
+        tue: [],
+        wed: [],
+        thu: [],
+        fri: [],
+        sat: [],
+        sun: []
+      }
       // GET MEAL PLAN DATA
       let planThing = things.find(nameFilter('meal-plan'));
       let plan;
@@ -42,14 +51,14 @@ function Dashboard({ name, data }) {
         plan = await loadThing(planThing.url, mealplanStruct);
       } else {
         // CREATE NEW AND RETURN
-        plan = await initThing('meal-plan', mealplan, mealplanStruct);
+        plan = await initThing('meal-plan', emptyPlan, mealplanStruct);
       }
       return plan;
     }
 
     loadMealPlan(data)
       .then(setMealPlan)
-  }, [data, mealplan])
+  }, [data])
 
   async function loadRecipes(things) {
     // GET ALL RECIPE DATA
@@ -90,7 +99,7 @@ function Dashboard({ name, data }) {
     if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) return;
     let thing = setAttr(mealplan.thing, mealplanStruct[day], [...dayPlan, recipe]);
     updateQueue(addToUpdateQueue(queue, thing))
-    setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe] })
+    setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe], thing })
     console.log(`Make ${ recipe.name } on ${ day }`)
   }
 
