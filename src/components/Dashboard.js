@@ -1,5 +1,5 @@
 import { HeaderBar, SaveButton, Spacer, THEME } from "./styled";
-import { Button, IconButton } from '@material-ui/core'
+import { Button, IconButton, Snackbar } from '@material-ui/core'
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
@@ -13,6 +13,7 @@ function Dashboard({ name, data }) {
 
 
   const [recipes, setRecipes] = useState()
+  const [alert, setAlert] = useState({})
   const [mealplan, setMealPlan] = useState({
     mon: [],
     tue: [],
@@ -94,13 +95,21 @@ function Dashboard({ name, data }) {
   }
 
   function planRecipe(recipe, day) {
-    // TODO: Feedback
     let dayPlan = mealplan[day];
-    if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) return;
+    if (dayPlan.findIndex(r => r.thing.url === recipe.thing.url) >= 0) {
+      setAlert({
+        msg: `${ recipe.name } already exists on ${ day.toUpperCase() }.`,
+        severity: 'warning'
+      })
+      return;
+    }
     let thing = setAttr(mealplan.thing, mealplanStruct[day], [...dayPlan, recipe]);
     updateQueue(addToUpdateQueue(queue, thing))
     setMealPlan({ ...mealplan, [day]: [...dayPlan, recipe], thing })
-    console.log(`Make ${ recipe.name } on ${ day }`)
+    setAlert({
+      msg: `Added ${ recipe.name } to ${ day.toUpperCase() }.`,
+      severity: 'success'
+    })
   }
 
   return (
@@ -128,9 +137,17 @@ function Dashboard({ name, data }) {
               updateRecipe={ updateRecipe }
               addRecipe={ addRecipe }
               planRecipe={ planRecipe } />
+            <Snackbar
+              anchorOrigin={ { vertical: 'bottom', horizontal: 'right' } }
+              open={ !!alert.msg }
+              message={ alert.msg }
+              action={ <span className='material-icons'>{ alert.severity === 'success' ? 'check_circle' : 'warning' }</span> }
+              autoHideDuration={ 3000 }
+              onClose={ () => setAlert({}) } />
           </Route>
           <Route path="/">
             <MealPlan plan={ mealplan } onChange={ setMealPlan } />
+            {/* FEEDBACK FOR ADDING MEALS */ }
           </Route>
         </Switch>
       </Main>
