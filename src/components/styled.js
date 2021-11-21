@@ -22,6 +22,7 @@ export const muiTheme = createMuiTheme({
 
 export const Column = styled.div`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: ${ props => props.justify };
@@ -54,6 +55,7 @@ export const Spacer = styled.span`
 
 export const Main = styled.div`
   height: 100%;
+  width: 100%;
   background: ${ THEME.light };
   color: ${ THEME.dark };
 `
@@ -112,6 +114,7 @@ export const Pane = styled.div`
 export const Card = styled.div`
   width: 90%;
   min-height: 100px;
+  max-width: 350px;
   background-color: white;
   box-shadow: rgb(91 83 72 / 10%) 2px 2px 10px;
   border-radius: 3px;
@@ -130,6 +133,12 @@ export const ActionBar = styled.div`
 export const Title = styled.h2`
   margin: .5em 0;
   font-weight: 200;
+`
+
+export const Header = styled.h1`
+  margin: .5em .5em;
+  font-weight: 200;
+  text-transform: uppercase;
 `
 
 export const Subtitle = styled.h4`
@@ -156,4 +165,33 @@ export const SaveButton = styled.div`
   bottom: 10px;
   right: 10px;
   z-index: 1;
+`
+
+export const SideBar = styled.div`
+  position: fixed;
+  z-index: 100;
+  height: 100vh;
+  top: 0px;
+  ${ props => props.side }: 0px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: rgb(91 83 72 / 10%) 2px 2px 10px;
+  transition: ${ props => props.side } ease-out .3s;
+  &.hidden {
+    ${ props => props.side }: -350px;
+  }
+`
+
+export const SimpleBucket = styled.h2`
+  flex: 1;
+  justify-content: space-around;
+  border: 5px dashed ${ THEME.dark };
+  text-align: center;
+  margin: 3px;
+  opacity: .5;
+  &.match {
+    background-color: ${ THEME.primary };
+  }
 `

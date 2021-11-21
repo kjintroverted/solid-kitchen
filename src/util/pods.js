@@ -76,8 +76,26 @@ export function setAttr(thing, attribute, value) {
   return thing;
 }
 
-export function updateAttr(thing, attribute, value) {
-  thing = attribute.set(thing, attribute.predicate, value)
+export function setAllAttr(thing, struct, data) {
+  for (let attr in struct) {
+    thing = struct[attr].set(
+      thing,
+      struct[attr].predicate,
+      data[attr]);
+  }
+  return thing;
+}
+
+export async function initThing(name, data, struct) {
+  let thing = newThing(name);
+  for (let attr in data) {
+    thing = struct[attr].set(
+      thing,
+      struct[attr].predicate,
+      data[attr]);
+  }
+  let url = await saveThing(thing);
+  thing = loadThing(url, struct);
   return thing;
 }
 

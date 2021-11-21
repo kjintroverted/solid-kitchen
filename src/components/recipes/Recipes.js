@@ -5,11 +5,18 @@ import { Pane, Row } from "../styled";
 import { Route } from "react-router";
 import RecipePreview from "./RecipePreview";
 import RecipeCard from "./RecipeCard";
+import MealPlanBuckets from "../meal-plan/MealPlanBuckets";
 
-function Recipes({ recipes, deleteRecipe, addRecipe, updateRecipe }) {
+function Recipes({
+  recipes,
+  deleteRecipe,
+  addRecipe,
+  updateRecipe,
+  planRecipe }) {
 
   const [add, setAdd] = useState(false);
   const [filter, updateFilter] = useState("");
+  const [planning, setPlanning] = useState(null);
 
   function onSubmit(recipe) {
     addRecipe(recipe);
@@ -41,13 +48,14 @@ function Recipes({ recipes, deleteRecipe, addRecipe, updateRecipe }) {
                 || r.ingredients.findIndex(i => i.item.toLowerCase().indexOf(filter) >= 0) >= 0
                 || r.tags.findIndex(t => t.toLowerCase().indexOf(filter) >= 0) >= 0
               )
-              .map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
+              .map(r => <RecipePreview key={ r.thing.url } recipe={ r } onDrag={ () => setPlanning(true) } onDragEnd={ () => setPlanning(false) } />)
           }
         </Pane>
       </Route>
-      <Route path="/:recipe_id">
+      <Route path="/recipes/:recipe_id">
         <RecipeCard recipes={ recipes } deleteRecipe={ deleteRecipe } updateRecipe={ updateRecipe } />
       </Route>
+      <MealPlanBuckets visible={ planning } planRecipe={ planRecipe } />
     </>
   )
 }
