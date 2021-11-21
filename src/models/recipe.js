@@ -1,6 +1,6 @@
 import { getStringNoLocale, setStringNoLocale } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
-import { getAndParse, stringifyAndSet } from "../util/pods";
+import { getAndParse, stringifyAndSet } from "solid-core";
 
 export const recipeStruct = {
   name: { // STRING

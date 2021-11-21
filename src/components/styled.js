@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 
 // https://poolors.com/379968-f0f0ef-c7a487-5b5348
 export const THEME = {
@@ -9,7 +9,7 @@ export const THEME = {
   secondary: '#c7a487'
 }
 
-export const muiTheme = createMuiTheme({
+export const muiTheme = createTheme({
   palette: {
     primary: {
       main: THEME.primary,

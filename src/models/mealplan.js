@@ -1,5 +1,5 @@
 import { FOAF } from "@inrupt/vocab-common-rdf";
-import { getAndParse, stringifyAndSet } from "../util/pods";
+import { getAndParse, stringifyAndSet } from "solid-core";
 
 const mealplanStruct = {
   mon: {

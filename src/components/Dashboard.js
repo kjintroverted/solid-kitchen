@@ -3,7 +3,7 @@ import { Button, IconButton, Snackbar } from '@material-ui/core'
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
-import { loadThing, deleteThing, nameFilter, SaveState, initThing, setAttr, addToUpdateQueue } from "../util/pods";
+import { loadThing, deleteThing, nameFilter, SaveState, initThing, setAttr, addToUpdateQueue } from "solid-core";
 import { Recipes } from "./recipes";
 import styled from "styled-components";
 import MealPlan from "./meal-plan/MealPlan";

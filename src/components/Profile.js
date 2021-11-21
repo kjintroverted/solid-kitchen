@@ -2,7 +2,7 @@ import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileStruct } from "../models";
-import { addToUpdateQueue, SaveState, setAttr } from "../util/pods";
+import { addToUpdateQueue, SaveState, setAttr } from "solid-core";
 import { BigBar, BigIconHeader, Column, SaveButton, Spacer } from "./styled";
 
 

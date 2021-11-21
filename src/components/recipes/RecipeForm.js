@@ -1,7 +1,7 @@
 import { Button, CircularProgress, IconButton, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { recipeStruct } from "../../models/recipe";
-import { loadThing, newThing, saveThing, setAttr } from "../../util/pods";
+import { loadThing, newThing, saveThing, setAttr } from "solid-core";
 import { Card, Row } from "../styled";
 
 function RecipeForm({ onSubmit }) {
