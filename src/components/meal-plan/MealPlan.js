@@ -1,7 +1,13 @@
+import { Button } from "@material-ui/core";
+import { useContext } from "react";
+import mealplanStruct from "../../models/mealplan";
+import { addToUpdateQueue, SaveState, setAllAttr } from "../../util/pods";
 import RecipePreview from "../recipes/RecipePreview";
 import { Column, Row, Header } from "../styled";
 
-function MealPlan({ plan }) {
+function MealPlan({ plan, onChange }) {
+
+  const { queue, updateQueue } = useContext(SaveState);
 
   const days = [
     "mon",
@@ -13,7 +19,21 @@ function MealPlan({ plan }) {
     "sun"
   ]
 
-  // TODO: Clear all
+  function clear() {
+    let emptyPlan = {
+      thing: plan.thing,
+      mon: [],
+      tue: [],
+      wed: [],
+      thu: [],
+      fri: [],
+      sat: [],
+      sun: []
+    };
+    onChange(emptyPlan)
+    // UPDATE ALL ATTR AND ADD TO QUEUE
+    updateQueue(addToUpdateQueue(queue, setAllAttr(plan.thing, mealplanStruct, emptyPlan)))
+  }
 
   return (
     <Column>
@@ -31,6 +51,7 @@ function MealPlan({ plan }) {
           </div>
         ))
       }
+      <Button onClick={ clear }>Clear Plan</Button>
     </Column >
   )
 }

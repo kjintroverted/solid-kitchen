@@ -121,7 +121,7 @@ function Dashboard({ name, data }) {
               planRecipe={ planRecipe } />
           </Route>
           <Route path="/">
-            <MealPlan plan={ mealplan } />
+            <MealPlan plan={ mealplan } onChange={ setMealPlan } />
           </Route>
         </Switch>
       </Main>
