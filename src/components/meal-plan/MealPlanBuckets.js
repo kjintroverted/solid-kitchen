@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SideBar, SimpleBucket } from "../styled";
+import { SideBar, SimpleBucket } from "solid-core";
 
 function MealPlanBuckets({ visible, planRecipe }) {
 
