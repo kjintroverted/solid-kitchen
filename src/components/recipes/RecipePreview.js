@@ -1,7 +1,6 @@
 import { Button, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { resourceName } from "solid-core";
-import { ActionBar, Card, CardContent, Divider, Label, Row, Title } from "../styled";
+import { ActionBar, Card, CardContent, Divider, Label, Row, Title, resourceName } from "solid-core";
 
 function RecipePreview({ recipe, onDragEnd, onDrag = () => { } }) {
 

@@ -1,7 +1,7 @@
 import { Button, TextField } from "@material-ui/core";
 import { useState } from "react";
 import RecipeForm from "./RecipeForm";
-import { Pane, Row } from "../styled";
+import { Pane, Row } from "solid-core";
 import { Route } from "react-router";
 import RecipePreview from "./RecipePreview";
 import RecipeCard from "./RecipeCard";
