@@ -39,7 +39,7 @@ function MealPlan({ plan, onChange }) {
   }
 
   return (
-    <Column>
+    <Column width="100%">
       {
         days.map(day => (
           <div key={ day }>
