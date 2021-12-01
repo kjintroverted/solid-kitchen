@@ -1,38 +1,31 @@
-import { Button, IconButton, Input, InputAdornment } from "@material-ui/core";
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { profileStruct } from "../models";
-import { addToUpdateQueue, SaveState, setAttr } from "solid-core";
+import { addToUpdateQueue, setAttr } from "solid-core";
 import { BigBar, BigIconHeader, Column, SaveButton, Spacer } from "./styled";
 
 
-function Profile({ profile, onChange }) {
+const Profile = ({
+  profile,
+  edit,
+  toggleEdit,
+  onChange,
+  saveState,
+  ui
+}) => {
 
-  const [edit, toggleEdit] = useState(false);
-  const [thing, setThing] = useState();
-  const { queue, saveFromQ, updateQueue } = useContext(SaveState)
-
-  useEffect(() => {
-    if (!profile) return
-    setThing(profile.thing)
-  }, [profile])
-
-  function update(field) {
+  function updateField(field) {
     return ({ target }) => {
-      onChange({ ...profile, [field]: target.value })
-      let t = setAttr(thing, profileStruct[field], target.value);
-      updateQueue(addToUpdateQueue(queue, t))
-      setThing(t)
+      let t = setAttr(profile.thing, profileStruct[field], target.value);
+      saveState.updateQueue(addToUpdateQueue(saveState.queue, t))
+      onChange({ ...profile, thing: t, [field]: target.value })
     }
   }
 
   function updateName({ target }) {
     let [firstName = '', lastName = ''] = target.value.split(' ');
-    onChange({ ...profile, firstName, lastName });
-    let t = setAttr(thing, profileStruct['firstName'], firstName)
+    let t = setAttr(profile.thing, profileStruct['firstName'], firstName)
     t = setAttr(t, profileStruct['lastName'], lastName)
-    setThing(t)
-    updateQueue(addToUpdateQueue(queue, t))
+    saveState.updateQueue(addToUpdateQueue(saveState.queue, t))
+    onChange({ ...profile, thing: t, firstName, lastName });
   }
 
   if (!profile) return <></>
@@ -47,16 +40,16 @@ function Profile({ profile, onChange }) {
               { profile.firstName } { profile.lastName }
               <span className="material-icons" onClick={ () => toggleEdit(!edit) }>edit</span>
             </h2>
-            : <Input
+            : <ui.Input
               type="text"
               placeholder="name"
               defaultValue={ profile.firstName ? `${ profile.firstName } ${ profile.lastName }` : "" }
               endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={ () => toggleEdit(!edit) } color="inherit">
+                <ui.InputAdornment position="end">
+                  <ui.IconButton onClick={ () => toggleEdit(!edit) } color="inherit">
                     <span className="material-icons">done</span>
-                  </IconButton>
-                </InputAdornment>
+                  </ui.IconButton>
+                </ui.InputAdornment>
               }
               onChange={ updateName } />
           }
@@ -64,43 +57,41 @@ function Profile({ profile, onChange }) {
         </Column>
         <Spacer />
         <Column justify="flex-end">
-          <Link to="/">
-            <IconButton color="inherit">
-              <span className="material-icons large">kitchen</span>
-            </IconButton>
-          </Link>
+          <ui.IconButton color="inherit" href="https://kitchen.wkgreen.dev">
+            <span className="material-icons large">kitchen</span>
+          </ui.IconButton>
         </Column>
       </BigBar>
       <Column align="center">
-        <Input
+        <ui.Input
           type="text"
           placeholder="nickname"
           defaultValue={ profile.nickname || "" }
           startAdornment={
-            <InputAdornment position="start">
+            <ui.InputAdornment position="start">
               <span className="material-icons">account_circle</span>
-            </InputAdornment>
+            </ui.InputAdornment>
           }
-          onChange={ update("nickname") } />
-        <Input
+          onChange={ updateField("nickname") } />
+        <ui.Input
           type="text"
           placeholder="email"
           defaultValue={ profile.email || "" }
           startAdornment={
-            <InputAdornment position="start">
+            <ui.InputAdornment position="start">
               <span className="material-icons">email</span>
-            </InputAdornment>
+            </ui.InputAdornment>
           }
-          onChange={ update("email") } />
+          onChange={ updateField("email") } />
         {
-          !!queue.length &&
+          !!saveState.queue.length &&
           <SaveButton>
-            <Button
+            <ui.Button
               variant="contained"
               color="secondary"
-              onClick={ saveFromQ }>
+              onClick={ saveState.saveFromQ }>
               Save
-            </Button>
+            </ui.Button>
           </SaveButton>
         }
       </Column>

@@ -7,7 +7,7 @@ import { profileStruct } from './models'
 import Profile from './components/Profile';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
-import { ThemeProvider } from '@material-ui/core';
+import * as mui from '@material-ui/core';
 
 function App() {
 
@@ -15,6 +15,8 @@ function App() {
   const [profile, setProfile] = useState();
   const [things, setThings] = useState();
   const [queue, updateQueue] = useState([]);
+  // PROFILE VARS
+  const [edit, toggleEdit] = useState(false)
 
   async function saveFromQ() {
     await save(queue);
@@ -46,14 +48,25 @@ function App() {
 
   return (
     <SaveState.Provider value={ { queue, updateQueue, saveFromQ } }>
-      <ThemeProvider theme={ muiTheme }>
+      <mui.ThemeProvider theme={ muiTheme }>
         <Main>
           <Router>
             <Switch>
               <Route path="/profile">
-                <Profile
-                  profile={ profile }
-                  onChange={ setProfile } />
+                <SaveState.Consumer>
+                  {
+                    saveState => (
+                      <Profile
+                        profile={ profile }
+                        edit={ edit }
+                        toggleEdit={ toggleEdit }
+                        ui={ mui }
+                        saveState={ saveState }
+                        onChange={ setProfile }
+                      />
+                    )
+                  }
+                </SaveState.Consumer>
               </Route>
               <Route path="/">
                 {/* TODO: loading logic */ }
@@ -62,7 +75,7 @@ function App() {
             </Switch>
           </Router>
         </Main>
-      </ThemeProvider>
+      </mui.ThemeProvider>
     </SaveState.Provider>
   );
 }
