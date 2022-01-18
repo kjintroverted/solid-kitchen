@@ -17,6 +17,7 @@ import { getDefaultSession } from '@inrupt/solid-client-authn-browser';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import * as mui from '@material-ui/core';
+import { THEME } from './util';
 
 function App() {
 
@@ -70,6 +71,7 @@ function App() {
                         edit={ edit }
                         toggleEdit={ toggleEdit }
                         ui={ mui }
+                        theme={ THEME }
                         saveState={ saveState }
                         onChange={ setProfile }
                       />
@@ -78,7 +80,6 @@ function App() {
                 </SaveState.Consumer>
               </Route>
               <Route path="/">
-                {/* TODO: loading logic */ }
                 { profile && <Dashboard name={ profile.firstName } data={ things } /> }
               </Route>
             </Switch>

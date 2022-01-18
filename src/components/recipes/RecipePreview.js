@@ -1,6 +1,8 @@
 import { Button, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { ActionBar, Card, CardContent, Divider, Label, Row, Title, resourceName } from "solid-core";
+import { Spacer } from "solid-core/dist/components/styled";
+import { THEME } from "../../util";
 
 function RecipePreview({ recipe, onDragEnd, onDrag = () => { } }) {
 
@@ -22,7 +24,8 @@ function RecipePreview({ recipe, onDragEnd, onDrag = () => { } }) {
           recipe.tags.map(t => <Chip key={ t } label={ t } size="small" />)
         }
       </Row>
-      <Divider />
+      <Spacer height=".5em" />
+      <Divider theme={ THEME } />
       <Label>Needs</Label>
       <CardContent>
         { recipe.ingredients.map(i => i.item).join(', ') }

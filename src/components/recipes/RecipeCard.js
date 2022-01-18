@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { recipeStruct } from "../../models/recipe";
 import { Row, Spacer, Subtitle, Title, addToUpdateQueue, SaveState, setAttr } from "solid-core";
 import ChipField from "./ChipField";
+import { THEME } from "../../util";
 
 function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
 
@@ -93,7 +94,7 @@ function RecipeCard({ recipes, deleteRecipe, updateRecipe }) {
           </IconButton>
         </Link>
       </Row>
-      <Divider />
+      <Divider theme={ THEME } />
       <Row wrap='wrap'>
         {
           recipe.ingredients.map((ing, i) => {

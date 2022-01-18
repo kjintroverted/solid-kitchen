@@ -1,4 +1,5 @@
-import { Button, IconButton, Snackbar } from '@material-ui/core'
+import { IconButton, Snackbar } from '@material-ui/core'
+import * as mui from '@material-ui/core'
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { recipeStruct } from "../models/recipe";
@@ -125,7 +126,7 @@ function Dashboard({ name, data }) {
 
   return (
     <Layout>
-      <HeaderBar>
+      <HeaderBar theme={ THEME }>
         <h2>{ name ? `${ name }'s` : "My" } Kitchen</h2>
         <Spacer />
         <Link to={ location.pathname === "/" ? "/recipes" : "/" }>
@@ -162,17 +163,7 @@ function Dashboard({ name, data }) {
           </Route>
         </Switch>
       </Main>
-      {
-        !!queue.length &&
-        <SaveButton>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={ saveFromQ }>
-            Save
-          </Button>
-        </SaveButton>
-      }
+      <SaveButton queue={ queue } save={ saveFromQ } ui={ mui } />
     </Layout >
   )
 }
@@ -181,6 +172,7 @@ export default Dashboard;
 
 const Layout = styled.div`
   background: ${ THEME.light };
+  height: 100%;
   display: grid;
   grid-template-rows: 5.2em 1fr;
   grid-template-areas: 
@@ -190,6 +182,7 @@ const Layout = styled.div`
 
 const Main = styled.div`
   display: flex;
+  background: ${ THEME.light };
   flex-direction: row;
   flex-wrap: wrap;
   grid-area: main;
