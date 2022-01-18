@@ -5,6 +5,8 @@ import mealplanStruct from "../../models/mealplan";
 import { Column, Row, Header, addToUpdateQueue, SaveState, setAllAttr } from "solid-core";
 import RecipePreview from "../recipes/RecipePreview";
 import ShoppingList from "./ShoppingList";
+import { Spacer } from "solid-core/dist/components/styled";
+import styled from "styled-components";
 
 function MealPlan({ plan, onChange }) {
 
@@ -47,7 +49,13 @@ function MealPlan({ plan, onChange }) {
             </Header>
             <Row wrap="wrap">
               {
-                plan[day].map(r => <RecipePreview key={ r.thing.url } recipe={ r } />)
+                plan[day].map(r => (
+                  <>
+                    <Spacer width=".5em" />
+                    <RecipePreview key={ r.thing.url } recipe={ r } />
+                    <Spacer width=".5em" />
+                  </>
+                ))
               }
               {
                 !plan[day].length &&
@@ -59,19 +67,27 @@ function MealPlan({ plan, onChange }) {
           </div>
         ))
       }
-      <Row justify="flex-end">
-        <Button onClick={ clear } color="secondary">Clear Plan</Button>
-        <Button
-          color="primary"
-          variant="contained"
-          style={ { alignSelf: 'flex-end' } }
-          onClick={ () => setShowList(true) }>
-          Shopping List
-        </Button>
-      </Row >
+      <ActionBar>
+        <Row justify="flex-end">
+          <Button onClick={ clear } color="secondary">Clear Plan</Button>
+          <Button
+            color="primary"
+            variant="contained"
+            style={ { alignSelf: 'flex-end' } }
+            onClick={ () => setShowList(true) }>
+            Shopping List
+          </Button>
+        </Row >
+      </ActionBar>
       <ShoppingList open={ showList } onClose={ () => setShowList(false) } mealplan={ plan } />
     </Column >
   )
 }
 
 export default MealPlan;
+
+const ActionBar = styled.div`
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+`

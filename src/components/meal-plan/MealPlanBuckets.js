@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SideBar, SimpleBucket } from "solid-core";
+import { THEME } from "../../util";
 
 function MealPlanBuckets({ visible, planRecipe }) {
 
@@ -28,6 +29,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
   return (
     <SideBar side="right" className={ visible ? "" : "hidden" }>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "mon" ? "match" : "" }
         onDragEnter={ handleDragOver("mon") }
         onDragOver={ handleDragOver("mon") }
@@ -36,6 +38,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         monday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "tue" ? "match" : "" }
         onDragEnter={ handleDragOver("tue") }
         onDragOver={ handleDragOver("tue") }
@@ -44,6 +47,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         tuesday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "wed" ? "match" : "" }
         onDragEnter={ handleDragOver("wed") }
         onDragOver={ handleDragOver("wed") }
@@ -52,6 +56,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         wednesday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "thu" ? "match" : "" }
         onDragEnter={ handleDragOver("thu") }
         onDragOver={ handleDragOver("thu") }
@@ -60,6 +65,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         thursday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "fri" ? "match" : "" }
         onDragEnter={ handleDragOver("fri") }
         onDragOver={ handleDragOver("fri") }
@@ -68,6 +74,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         friday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "sat" ? "match" : "" }
         onDragEnter={ handleDragOver("sat") }
         onDragOver={ handleDragOver("sat") }
@@ -76,6 +83,7 @@ function MealPlanBuckets({ visible, planRecipe }) {
         saturday
       </SimpleBucket>
       <SimpleBucket
+        theme={ THEME }
         className={ hover === "sun" ? "match" : "" }
         onDragEnter={ handleDragOver("sun") }
         onDragOver={ handleDragOver("sun") }
