@@ -25,7 +25,7 @@ function Recipes({
 
   return (
     <>
-      <Route path="/" exact={ window.innerWidth < 500 }>
+      <Route path="/recipes" exact={ window.innerWidth < 500 }>
         <Pane>
           <Row justify="flex-start" align="center">
             { (recipes && !recipes.length) && <h3>No recipes yet...</h3> }
